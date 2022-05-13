@@ -5,6 +5,7 @@ import { Listbox } from '@headlessui/react';
 
 
 import { useAuth } from "context/AuthProvider";
+import AlertPopper from "components/Alerts/AlertPopper";
 
 // components
 const STATE_INITIAL = {
@@ -33,6 +34,7 @@ export default function CardRegisterUser() {
     nombre: 'Negocio'
   }])
   const [selectedNegocio, setSelectNegocio] = React.useState(negocios[0])
+  const [errorOrOk, setErrorOrOk] = React.useState("");
 
   const handleChange = (evt) => {
     setUser({
@@ -49,6 +51,7 @@ export default function CardRegisterUser() {
       values.push(value.data())
     })
     setNegocios(values);
+    setErrorOrOk("")
   }
 
   function getUsers() {
@@ -82,6 +85,7 @@ export default function CardRegisterUser() {
     evt.preventDefault();
     user.tipoUsuario = selectedUser.name
     user.negocio = selectedNegocio.codigo
+    setErrorOrOk("")
     if (user.username !== '' && user.password !== '' && user.tipoUsuario !== '' && user.negocio !== '') {
       try {
         const username = user.username.toLowerCase().trim().concat('@gmail.com');
@@ -89,20 +93,20 @@ export default function CardRegisterUser() {
         if (uid && uid.length > 0) {
           const {
             username,
-            tipoUsuario,
-            negocio
+            tipoUsuario
           } = user;
+          const negocio = selectedNegocio;
           const response = await createDoc("usuarios", {
             username,
             tipoUsuario,
-            negocio,
-            uid
+            uid,
+            negocio
           });
           setUser(STATE_INITIAL)
-
+          setErrorOrOk("Usuario creado")
         }
       } catch (error) {
-        console.error(new Error('Error al crear usuario'));
+        setErrorOrOk("Error al crear usuario")
       }
 
     }
@@ -113,6 +117,7 @@ export default function CardRegisterUser() {
     <>
       <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
         <div className="rounded-t bg-white mb-0 px-6 py-6">
+          {errorOrOk && <AlertPopper color="red" message={errorOrOk} />}
           <div className="text-center flex justify-between">
             <h6 className="text-blueGray-700 text-xl font-bold">Usuario</h6>
           </div>

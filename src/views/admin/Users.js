@@ -24,7 +24,7 @@ export default function Users() {
     getUsers()
   }, [])
 
-  
+
   return (
     <>
       <div className="flex flex-wrap">
