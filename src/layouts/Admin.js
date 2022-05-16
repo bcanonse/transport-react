@@ -1,18 +1,21 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 // components
 
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import HeaderStats from "components/Headers/HeaderStats.js";
 // views
 
 import Dashboard from "views/admin/Dashboard.js";
 import Users from "views/admin/Users";
-import Tables from "views/admin/Tables.js";
 import FooterApp from "components/Footers/FooterApp";
 import { AuthProvider } from "context/AuthProvider";
 import ProtectedRoutes from "views/auth/ProtectedRoutes";
+import CardRegisterUser from "components/Cards/CardRegisterUser";
+import Negocios from "views/admin/Negocios";
+import CardRegisterNegocio from "components/Cards/CardRegisterNegocio";
+import Sucursales from "views/admin/Sucursales";
+import CardRegisterSucursal from "components/Cards/CardRegisterSucursal";
 
 
 
@@ -24,14 +27,22 @@ export default function Admin() {
           <Sidebar />
           <div className="relative md:ml-64 bg-blueGray-100">
             <AdminNavbar />
-            {/* Header */}
-            <HeaderStats />
+            <div className="relative bg-lightBlue-600 md:pt-32 pb-32 pt-12">
+              <div className="px-4 md:px-10 mx-auto w-full">
+                <div>
+                </div>
+              </div>
+            </div>
             <div className="px-4 md:px-10 mx-auto w-full -m-24">
               <Switch>
                 <Route path="/admin/dashboard" exact component={Dashboard} />
                 <Route path="/admin/users" exact component={Users} />
-                <Route path="/admin/tables" exact component={Tables} />
-                <Redirect from="/admin" to="/admin/dashboard" />
+                <Route path="/admin/users/create" exact component={CardRegisterUser} />
+                <Route path="/admin/negocios" exact component={Negocios} />
+                <Route path="/admin/negocios/create" exact component={CardRegisterNegocio} />
+                <Route path="/admin/sucursales" exact component={Sucursales} />
+                <Route path="/admin/sucursales/create" exact component={CardRegisterSucursal} />
+                {/* <Redirect from="/admin" to="/admin/users" /> */}
               </Switch>
               <FooterApp />
             </div>

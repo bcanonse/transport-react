@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
 const CardUsers = ({ color, title, list }) => {
+
+  const navigate = useHistory();
+
+  const handleClickNavigate = () => {
+    navigate.push('users/create');
+  }
+
 
   const handleClickItem = (data, evt) => {
   }
@@ -17,15 +25,25 @@ const CardUsers = ({ color, title, list }) => {
       >
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
-            <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-              <h3
-                className={
-                  "font-semibold text-lg " +
-                  (color === "light" ? "text-blueGray-700" : "text-white")
-                }
-              >
-                {title}
-              </h3>
+            <div className="w-full px-4 flex-grow flex">
+              <div className="w-1/2 text-left">
+                <h3
+                  className={
+                    "font-semibold text-lg " +
+                    (color === "light" ? "text-blueGray-700" : "text-white")
+                  }
+                >
+                  {title}
+                </h3>
+              </div>
+              <div className="w-1/2">
+                <button
+                  className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                  onClick={handleClickNavigate}
+                >
+                  Agregar
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -78,13 +96,12 @@ const CardUsers = ({ color, title, list }) => {
                       {data.username}
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {data.tipoUsuario}
+                      {data.esAdmin == null || data.esAdmin ? 'Administrador' : 'Operativo'}
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {
                         data.negocio && data.negocio.nombre
                       }
-                      
                     </td>
                   </tr>
                 </>

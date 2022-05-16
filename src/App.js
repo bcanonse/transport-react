@@ -12,6 +12,7 @@ import Profile from "views/Profile.js";
 import HomeSite from "views/HomeSite";
 import SitePages from "layouts/SitePages";
 import Auth from "layouts/Auth";
+import AppClient from "layouts/AppClient";
 
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
             <Switch>
                 {/* add routes with layouts */}
                 <Route path="/admin" component={Admin} />
+                <Route path="/app" component={AppClient} />
                 <Route path="/auth" component={Auth} />
                 <Route path="/profile" exact component={Profile} />
                 <Route path="/" exact component={HomeSite} />

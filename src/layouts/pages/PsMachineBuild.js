@@ -1,6 +1,7 @@
 import FormQuote from "../../components/Forms/FormQuote";
 
 const PsMachineBuild = () => {
+    window.scroll(0,0)
     return (
         <>
             <main>

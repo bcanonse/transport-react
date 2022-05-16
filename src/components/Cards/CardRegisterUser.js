@@ -1,4 +1,3 @@
-import DropDownOptions from "components/Dropdowns/DropDownOptions";
 import { createDoc, getCollections } from "firebase/firebase";
 import React from "react";
 import { Listbox } from '@headlessui/react';
@@ -6,29 +5,22 @@ import { Listbox } from '@headlessui/react';
 
 import { useAuth } from "context/AuthProvider";
 import AlertPopper from "components/Alerts/AlertPopper";
+import { useHistory } from "react-router-dom";
 
 // components
 const STATE_INITIAL = {
   username: '',
   password: '',
-  tipoUsuario: '',
+  esAdmin: false,
   negocio: ''
 }
 
-const options = [
-  {
-    name: 'Operativo'
-  },
-  {
-    name: 'Gerencial'
-  }
-];
-
 export default function CardRegisterUser() {
   const { signUp } = useAuth();
+  const navigate = useHistory();
+  const [checked, setChecked] = React.useState(false);
 
   const [user, setUser] = React.useState(STATE_INITIAL)
-  const [selectedUser, setSelectedUser] = React.useState(options[0])
   const [negocios, setNegocios] = React.useState([{
     codigo: 0,
     nombre: 'Negocio'
@@ -41,7 +33,10 @@ export default function CardRegisterUser() {
       ...user,
       [evt.target.name]: evt.target.value
     })
+  }
 
+  const handleCheckboxChange = () => {
+    setChecked(!checked);
   }
 
   const getNegocio = async () => {
@@ -83,27 +78,31 @@ export default function CardRegisterUser() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    user.tipoUsuario = selectedUser.name
     user.negocio = selectedNegocio.codigo
-    setErrorOrOk("")
-    if (user.username !== '' && user.password !== '' && user.tipoUsuario !== '' && user.negocio !== '') {
+    user.esAdmin = checked
+    setErrorOrOk("");
+    if (user.username !== '' && user.password !== '' && user.esAdmin !== '' && user.negocio !== '') {
       try {
         const username = user.username.toLowerCase().trim().concat('@gmail.com');
         const { user: { uid } } = await signUp(username, user.password);
         if (uid && uid.length > 0) {
           const {
             username,
-            tipoUsuario
+            esAdmin
           } = user;
           const negocio = selectedNegocio;
+          const id = uid;
           const response = await createDoc("usuarios", {
             username,
-            tipoUsuario,
-            uid,
+            esAdmin,
+            id,
             negocio
           });
-          setUser(STATE_INITIAL)
-          setErrorOrOk("Usuario creado")
+          if (response && response.id.length > 0) {
+            setUser(STATE_INITIAL);
+            setErrorOrOk("Usuario creado");
+            navigate.push('/admin/users/')
+          }
         }
       } catch (error) {
         setErrorOrOk("Error al crear usuario")
@@ -170,19 +169,24 @@ export default function CardRegisterUser() {
               Permisos
             </h6>
             <div className="flex flex-wrap">
-              <div className="w-full lg:w-6/12 px-4">
+              <div className="w-2/12 px-4">
                 <div className="relative w-full mb-3">
-
                   <label
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                     htmlFor="grid-password"
                   >
-                    Tipo de usuario
+                    Es administrador
                   </label>
-                  <DropDownOptions selectedPerson={selectedUser} setSelectedPerson={setSelectedUser} options={options} />
+                  <input
+                    name="esAdmin"
+                    checked={checked}
+                    type="checkbox"
+                    onChange={handleCheckboxChange}
+                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring ease-linear transition-all duration-150"
+                  />
                 </div>
               </div>
-              <div className="w-full lg:w-6/12 px-4">
+              <div className="w-full lg:w-8/12 px-4">
                 <div className="relative w-full mb-3">
                   <label
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
