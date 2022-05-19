@@ -3,7 +3,8 @@ import {
     signInWithEmailAndPassword,
     signOut,
     createUserWithEmailAndPassword,
-    onAuthStateChanged} from "firebase/auth";
+    onAuthStateChanged
+} from "firebase/auth";
 import { auth, filterDoc } from "../firebase/firebase";
 
 const authContext = React.createContext(null);
@@ -38,14 +39,20 @@ export const AuthProvider = ({ children }) => {
             if (currentUser !== null) {
                 const user = {
                     id: '',
-                    user: '',
                     tipoUsuario: '',
                 }
-                getPermissions(currentUser?.uid, "usuarios", "uid").then((data) => {
+                getPermissions(currentUser?.uid, "usuarios", "id").then((data) => {
                     data.forEach((value => {
-                        const { tipoUsuario, uid } = value.data();
-                        user.id = value.id
-                        user.user = uid;
+                        const { esAdmin, id } = value.data();
+                        user.id = id;
+                        let tipoUsuario = 'R';
+                        if (esAdmin != null) {
+                            if (esAdmin) {
+                                tipoUsuario = 'A';
+                            } else {
+                                tipoUsuario = 'O';
+                            }
+                        }
                         user.tipoUsuario = tipoUsuario;
                     }))
                 })

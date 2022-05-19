@@ -1,18 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import Alert from "components/Alerts/Alert";
 
 const CardUsers = ({ color, title, list }) => {
 
   const navigate = useHistory();
+  const [error, setError] = React.useState("");
 
   const handleClickNavigate = () => {
-    navigate.push('users/create');
+    navigate.push('admin/users/create');
+  }
+
+  const handleClickAlert = () => {
+    setError("");
   }
 
 
   const handleClickItem = (data, evt) => {
+    if (data.esAdmin !== null && !data.esAdmin) {
+      navigate.push({
+        pathname: '/admin/users/permissions/',
+        state: { userNegocio: data }
+      });
+    }
+    else {
+      setError("No es operador")
+    }
   }
+
 
 
   return (
@@ -23,6 +39,7 @@ const CardUsers = ({ color, title, list }) => {
           (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
         }
       >
+        {error && <Alert message={error} handleClick={handleClickAlert} />}
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
             <div className="w-full px-4 flex-grow flex">
@@ -71,16 +88,6 @@ const CardUsers = ({ color, title, list }) => {
                 >
                   Tipo de usuario
                 </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                >
-                  Negocio
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -97,11 +104,6 @@ const CardUsers = ({ color, title, list }) => {
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {data.esAdmin == null || data.esAdmin ? 'Administrador' : 'Operativo'}
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {
-                        data.negocio && data.negocio.nombre
-                      }
                     </td>
                   </tr>
                 </>

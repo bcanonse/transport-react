@@ -59,7 +59,7 @@ export default function Sidebar() {
               </div>
             </div>
 
-            
+
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}

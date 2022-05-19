@@ -16,7 +16,7 @@ export default function Users() {
     response.forEach(element => {
       values.push(element.data())
     });
-    setUsers(values)
+    setUsers(values.filter((data) => data.esAdmin != null))
   }
 
   React.useEffect(() => {

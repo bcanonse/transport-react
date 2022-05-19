@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
+import { filterDoc } from '../../firebase/firebase';
 import Alert from "../../components/Alerts/Alert";
 
 const Login = () => {
@@ -16,10 +17,27 @@ const Login = () => {
         evt.preventDefault();
         setError("");
         try {
-            if (user.username.length > 0 && user.password.length > 0) {
-                const username = user.username.toLowerCase().trim().concat('@gmail.com')
-                await login(username, user.password);
-                navigate.push('/admin/dashboard')
+            const username = user.username.toLowerCase().trim().concat('@gmail.com');
+            const response = await login(username, user.password);
+            if (response) {
+                let user = response.user;
+                const permisos = await filterDoc(user.uid, "usuarios", "id");
+                permisos.forEach((data) => {
+                    const { id } = data.data();
+                    if (user.uid === id) {
+                        user = data.data();
+                    }
+                });
+                if (user !== null) {
+                    if (user.esAdmin == null) {
+                        navigate.push('/admin/users')
+                    } else {
+                        if (user.esAdmin)
+                            navigate.push('/dashboard');
+                        else
+                            navigate.push('/app');
+                    }
+                }
                 setUser({
                     username: '',
                     password: ''
@@ -94,6 +112,7 @@ const Login = () => {
                                             </div>
                                             <div className="text-center mt-6">
                                                 <button
+                                                    disabled={!user.username || !user.password}
                                                     className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                                                 >
                                                     Iniciar sesi&oacute;n

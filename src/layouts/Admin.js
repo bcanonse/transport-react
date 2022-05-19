@@ -6,7 +6,6 @@ import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 // views
 
-import Dashboard from "views/admin/Dashboard.js";
 import Users from "views/admin/Users";
 import FooterApp from "components/Footers/FooterApp";
 import { AuthProvider } from "context/AuthProvider";
@@ -16,6 +15,8 @@ import Negocios from "views/admin/Negocios";
 import CardRegisterNegocio from "components/Cards/CardRegisterNegocio";
 import Sucursales from "views/admin/Sucursales";
 import CardRegisterSucursal from "components/Cards/CardRegisterSucursal";
+import Permissions from "views/admin/Permissions";
+import CardRegisterPermissions from "components/Cards/CardRegisterPermissions";
 
 
 
@@ -35,9 +36,10 @@ export default function Admin() {
             </div>
             <div className="px-4 md:px-10 mx-auto w-full -m-24">
               <Switch>
-                <Route path="/admin/dashboard" exact component={Dashboard} />
                 <Route path="/admin/users" exact component={Users} />
                 <Route path="/admin/users/create" exact component={CardRegisterUser} />
+                <Route path="/admin/users/permissions" exact component={Permissions} />
+                <Route path="/admin/users/permissions/create" exact component={CardRegisterPermissions} />
                 <Route path="/admin/negocios" exact component={Negocios} />
                 <Route path="/admin/negocios/create" exact component={CardRegisterNegocio} />
                 <Route path="/admin/sucursales" exact component={Sucursales} />

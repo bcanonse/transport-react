@@ -1,6 +1,5 @@
-import { createDoc, getCollections } from "firebase/firebase";
+import { createDoc } from "firebase/firebase";
 import React from "react";
-import { Listbox } from '@headlessui/react';
 
 
 import { useAuth } from "context/AuthProvider";
@@ -12,7 +11,6 @@ const STATE_INITIAL = {
   username: '',
   password: '',
   esAdmin: false,
-  negocio: ''
 }
 
 export default function CardRegisterUser() {
@@ -21,11 +19,6 @@ export default function CardRegisterUser() {
   const [checked, setChecked] = React.useState(false);
 
   const [user, setUser] = React.useState(STATE_INITIAL)
-  const [negocios, setNegocios] = React.useState([{
-    codigo: 0,
-    nombre: 'Negocio'
-  }])
-  const [selectedNegocio, setSelectNegocio] = React.useState(negocios[0])
   const [errorOrOk, setErrorOrOk] = React.useState("");
 
   const handleChange = (evt) => {
@@ -39,75 +32,35 @@ export default function CardRegisterUser() {
     setChecked(!checked);
   }
 
-  const getNegocio = async () => {
-    const values = [];
-    const response = await getCollections("negocios");
-    response.forEach((value) => {
-      values.push(value.data())
-    })
-    setNegocios(values);
-    setErrorOrOk("")
-  }
-
-  function getUsers() {
-    if (negocios.length > 0) {
-      return (
-        <div className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-          <Listbox value={selectedNegocio} onChange={setSelectNegocio}>
-            <Listbox.Button>{selectedNegocio.nombre}</Listbox.Button>
-            <Listbox.Options>
-              {negocios.map((option) => (
-                <Listbox.Option
-                  key={option.codigo}
-                  value={option}
-                  className="w-full"
-                >
-                  {option.nombre}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Listbox>
-        </div>
-      )
-    }
-  }
-
   React.useEffect(() => {
-    getNegocio()
   }, [])
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    user.negocio = selectedNegocio.codigo
     user.esAdmin = checked
     setErrorOrOk("");
-    if (user.username !== '' && user.password !== '' && user.esAdmin !== '' && user.negocio !== '') {
-      try {
-        const username = user.username.toLowerCase().trim().concat('@gmail.com');
-        const { user: { uid } } = await signUp(username, user.password);
-        if (uid && uid.length > 0) {
-          const {
-            username,
-            esAdmin
-          } = user;
-          const negocio = selectedNegocio;
-          const id = uid;
-          const response = await createDoc("usuarios", {
-            username,
-            esAdmin,
-            id,
-            negocio
-          });
-          if (response && response.id.length > 0) {
-            setUser(STATE_INITIAL);
-            setErrorOrOk("Usuario creado");
-            navigate.push('/admin/users/')
-          }
+    try {
+      const username = user.username.toLowerCase().trim().concat('@gmail.com');
+      const { user: { uid } } = await signUp(username, user.password);
+      if (uid && uid.length > 0) {
+        const {
+          username,
+          esAdmin
+        } = user;
+        const id = uid;
+        const response = await createDoc("usuarios", {
+          username,
+          esAdmin,
+          id,
+        });
+        if (response && response.id.length > 0) {
+          setUser(STATE_INITIAL);
+          setErrorOrOk("Usuario creado");
+          navigate.push('/admin/users/')
         }
-      } catch (error) {
-        setErrorOrOk("Error al crear usuario")
       }
-
+    } catch (error) {
+      setErrorOrOk("Error al crear usuario")
     }
   }
 
@@ -186,21 +139,11 @@ export default function CardRegisterUser() {
                   />
                 </div>
               </div>
-              <div className="w-full lg:w-8/12 px-4">
-                <div className="relative w-full mb-3">
-                  <label
-                    className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    Negocio
-                  </label>
-                  {getUsers()}
-                </div>
-              </div>
             </div>
 
             <hr className="mt-6 border-b-1 border-blueGray-300" />
             <button
+              disabled={!user.username || !user.password}
               className="bg-lightBlue-500 mt-6 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
             >
               Agregar

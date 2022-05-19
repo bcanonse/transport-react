@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Redirect } from "react-router-dom";
 
+
 // components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import FooterApp from "components/Footers/FooterApp";
@@ -10,8 +11,10 @@ import { AuthProvider } from "context/AuthProvider";
 import ProtectedRoutes from "views/auth/ProtectedRoutes";
 import SideBarApp from 'components/Sidebar/SideBarApp';
 
-export default function AppClient() {
-    return (
+
+
+export default function AppDashboard() {
+    return(
         <>
             <AuthProvider>
                 <ProtectedRoutes>
@@ -26,7 +29,7 @@ export default function AppClient() {
                         </div>
                         <div className="px-4 md:px-10 mx-auto w-full -m-24">
                             <Switch>
-                                <Redirect from="/app" to="/app/dashboard" />
+                                <Redirect from="/dashboard" to="/dashboard/" />
                             </Switch>
                             <FooterApp />
                         </div>
@@ -34,5 +37,5 @@ export default function AppClient() {
                 </ProtectedRoutes>
             </AuthProvider>
         </>
-    );
+    )
 }

@@ -29,10 +29,11 @@ export default function CardRegisterNegocio() {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         setErrorOrOk("");
-        negocio.codigo = location.state + 1;
+        negocio.codigo = location.state.maxCodigo + 1;
         if (negocio.nombre !== '' &&
             negocio.nit !== '' &&
-            negocio.razonSocial !== ''
+            negocio.razonSocial !== '' &&
+            negocio.codigo > 0
         ) {
             try {
                 const response = await createDoc("negocios", negocio);
