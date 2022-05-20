@@ -35,7 +35,7 @@ const Login = () => {
                         if (user.esAdmin)
                             navigate.push('/dashboard');
                         else
-                            navigate.push('/app');
+                            navigate.push('/companies');
                     }
                 }
                 setUser({

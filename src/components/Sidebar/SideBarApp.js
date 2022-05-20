@@ -65,6 +65,20 @@ export default function SideBarApp () {
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+            <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/dashboard") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }
+                  to="/companies"
+                >
+                  Negocios
+                </Link>
+              </li>
+
               <li className="items-center">
                 <Link
                   className={
@@ -73,9 +87,9 @@ export default function SideBarApp () {
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/dashboard"
+                  to="/app/vendors"
                 >
-                  Dashboard
+                  Vendedores
                 </Link>
               </li>
 
@@ -83,27 +97,13 @@ export default function SideBarApp () {
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/settings") !== -1
+                    (window.location.href.indexOf("/admin/dashboard") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/settings"
+                  to="/app/quotes"
                 >
-                  Settings
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  className={
-                    "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/tables") !== -1
-                      ? "text-lightBlue-500 hover:text-lightBlue-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
-                  }
-                  to="/admin/tables"
-                >
-                  Tables
+                  Cotizaciones
                 </Link>
               </li>
             </ul>

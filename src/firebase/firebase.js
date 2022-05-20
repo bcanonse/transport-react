@@ -9,6 +9,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -64,3 +65,8 @@ export const filterDoc = async (
   const querySnapshot = await getDocs(fromQuery);
   return querySnapshot;
 };
+
+export const updateCustomDoc = async (path, id, data) => {
+  const docRef = doc(db, path);
+  await updateDoc(docRef, data);
+}

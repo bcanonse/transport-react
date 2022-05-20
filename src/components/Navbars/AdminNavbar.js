@@ -3,7 +3,7 @@ import React from "react";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 import { useAuth } from "context/AuthProvider";
 
-export default function Navbar() {
+export default function Navbar({ title }) {
 
   const { logout } = useAuth();
 
@@ -16,7 +16,7 @@ export default function Navbar() {
           <h3
             className="text-white text-sm uppercase hidden lg:inline-block font-semibold"
           >
-            Home
+            {!title ? 'Home' : `Negocio: ${title}`}
           </h3>
           {/* User */}
           <ul className="flex-col md:flex-row list-none items-center hidden md:flex">

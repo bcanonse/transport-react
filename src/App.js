@@ -14,6 +14,7 @@ import SitePages from "layouts/SitePages";
 import Auth from "layouts/Auth";
 import AppClient from "layouts/AppClient";
 import AppDashboard from "layouts/AppDashboard";
+import NegociosAcceso from "views/app/NegociosAcceso";
 
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
                 {/* add routes with layouts */}
                 <Route path="/admin" component={Admin} />
                 <Route path="/app" component={AppClient} />
+                <Route path="/companies" exact component={NegociosAcceso} />
                 <Route path="/dashboard" component={AppDashboard} />
                 <Route path="/auth" component={Auth} />
                 <Route path="/profile" exact component={Profile} />
