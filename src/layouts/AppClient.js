@@ -17,6 +17,12 @@ import { CardUpdateVendedor } from 'components/Cards/app/CardUpdateVendedor';
 import { Clientes } from 'views/app/Clientes';
 import { CardRegisterCliente } from 'components/Cards/app/CardRegisterCliente';
 import { CardUpdateCliente } from 'components/Cards/app/CardUpdateCliente';
+import { Productos } from 'views/app/Productos';
+import { CardRegisterProducto } from 'components/Cards/app/CardRegisterProducto';
+import { CardUpdateProducto } from 'components/Cards/app/CardUpdateProducto';
+import { Proveedores } from 'views/app/Proveedores';
+import { CardRegisterProveedor } from 'components/Cards/app/CardRegisterProveedor';
+import { CardUpdateProveedor } from 'components/Cards/app/CardUpdateProveedor';
 
 export default function AppClient() {
     let negocio = localStorage.getItem("negocio");
@@ -42,6 +48,12 @@ export default function AppClient() {
                                 <Route path="/app/clients" exact component={Clientes} />
                                 <Route path="/app/clients/create" exact component={CardRegisterCliente} />
                                 <Route path="/app/clients/modify" exact component={CardUpdateCliente} />
+                                <Route path="/app/manufacturers" exact component={Proveedores} />
+                                <Route path="/app/manufacturers/create" exact component={CardRegisterProveedor} />
+                                <Route path="/app/manufacturers/modify" exact component={CardUpdateProveedor} />
+                                <Route path="/app/products" exact component={Productos} />
+                                <Route path="/app/products/create" exact component={CardRegisterProducto} />
+                                <Route path="/app/products/modify" exact component={CardUpdateProducto} />
                                 <Route path="/app/quotes" exact component={Cotizaciones} />
                                 <Route path="/app/quotes/create" exact component={CardRegisterCotizacion} />
                                 <Route path="/app/quotes/modify" exact component={CardAsignarVendedor} />

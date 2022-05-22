@@ -9,7 +9,7 @@ const CardUsers = ({ color, title, list }) => {
   const [error, setError] = React.useState("");
 
   const handleClickNavigate = () => {
-    navigate.push('admin/users/create');
+    navigate.push('/admin/users/create');
   }
 
   const handleClickAlert = () => {
