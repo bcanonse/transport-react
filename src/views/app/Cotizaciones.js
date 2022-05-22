@@ -115,8 +115,8 @@ export default function Cotizaciones() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {cotizaciones.map((data, index) => (
-                                        <>
+                                    {cotizaciones.map((data, index) => {
+                                        return (
                                             <tr
                                                 className="cursor-pointer"
                                                 key={index}
@@ -146,8 +146,8 @@ export default function Cotizaciones() {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        </>
-                                    ))}
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>

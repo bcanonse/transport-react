@@ -107,8 +107,8 @@ export default function Vendedores() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {vendedores.map((data, index) => (
-                                        <>
+                                    {vendedores.map((data, index) => {
+                                        return (
                                             <tr
                                                 className="cursor-pointer"
                                                 key={index}
@@ -135,8 +135,8 @@ export default function Vendedores() {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        </>
-                                    ))}
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>

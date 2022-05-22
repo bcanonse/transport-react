@@ -115,8 +115,8 @@ export const Clientes = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {clientes.map((data, index) => (
-                                        <>
+                                    {clientes.map((data, index) => {
+                                        return (
                                             <tr
                                                 className="cursor-pointer"
                                                 key={index}
@@ -146,8 +146,8 @@ export const Clientes = () => {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        </>
-                                    ))}
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>

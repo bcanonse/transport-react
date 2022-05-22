@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const CardNegocioAcceso = ({ color }) => {
     const { user } = useAuth();
     const [negocios, setNegocios] = React.useState([]);
 
-    const getAccesoUsuarios = useCallback(async () => {
+    const getAccesoUsuarios = async () => {
         const values = [];
         let negociosList = [];
         if (user) {
@@ -34,11 +34,11 @@ const CardNegocioAcceso = ({ color }) => {
 
         }
         setNegocios(negociosList.sort())
-    }, [user]);
+    }
 
     React.useEffect(() => {
         getAccesoUsuarios();
-    }, [getAccesoUsuarios]);
+    }, []);
 
     const handleClickItem = (data, evt) => {
         localStorage.clear()
@@ -91,8 +91,8 @@ const CardNegocioAcceso = ({ color }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {negocios.map((data, index) => (
-                                <>
+                            {negocios.map((data, index) => {
+                                return (
                                     <tr
                                         className="cursor-pointer"
                                         key={index}
@@ -103,8 +103,8 @@ const CardNegocioAcceso = ({ color }) => {
                                             {data.nombre}
                                         </td>
                                     </tr>
-                                </>
-                            ))}
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
