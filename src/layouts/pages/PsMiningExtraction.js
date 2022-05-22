@@ -43,7 +43,7 @@ const PsMiningExtraction = () => {
                                     <br />
                                     <br />
 
-                                    Estos clientes avalan, el excelente servicio que brindamos, as&iacute; que
+                                    Nuestros clientes avalan, el excelente servicio que brindamos, as&iacute; que
                                     no dudes en comunicarte con nosotros y solicitar información sobre nuestro servicio
                                     de extracci&oacute;n minera en los puntos establecidos alrededor de Guatemala.
 

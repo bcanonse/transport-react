@@ -1,7 +1,7 @@
 import FormQuote from "../../components/Forms/FormQuote";
 
 const PsMachineBuild = () => {
-    window.scroll(0,0)
+    window.scroll(0, 0)
     return (
         <>
             <main>
@@ -39,7 +39,7 @@ const PsMachineBuild = () => {
                                     className="w-32 h-32 mb-5 shadow-lg rounded-full inline-flex items-center justify-center text-center"
                                 />
                                 <p className="text-lg leading-relaxed mt-4 mb-4 text-blueGray-400">
-                                    Venta y alquiler de maquinaria de construcción, con sucursales en puntos claves de Guatemala, 
+                                    Venta y alquiler de maquinaria de construcción, con sucursales en puntos claves de Guatemala,
                                     Xela, Zacapa y Pet&eacute;n.
                                     <br />
                                     <br />
@@ -50,6 +50,71 @@ const PsMachineBuild = () => {
 
                                 </p>
 
+                            </div>
+                        </div>
+                    </div>
+                    <div className="container mx-auto px-4 pt-10 pb-64">
+                        <h1 className="text-center text-white text-3xl pb-5" >Estas son las diferentes máquinas disponible para su venta y alquiler</h1>
+                        <div className="flex flex-wrap text-center justify-center">
+                            <div className="w-full sm:w-6/12 lg:w-4/12 px-4 py-4">
+                                <img
+                                    alt="Excavadora"
+                                    src="https://s7d2.scene7.com/is/image/Caterpillar/CM20200803-7d970-4b60a?$cc-s$"
+                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                />
+                                <h2 className="text-xl mb-4 font-semibold text-white">
+                                    Excavadora
+                                </h2>
+                            </div>
+                            <div className="w-full sm:w-6/12 lg:w-4/12 px-4 py-4">
+                                <img
+                                    alt="Pavimentadoras de asfalto"
+                                    src="https://s7d2.scene7.com/is/image/Caterpillar/C10412030?$cc-s$"
+                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                />
+                                <h2 className="text-xl mb-4 font-semibold text-white">
+                                    Pavimentadoras de asfalto
+                                </h2>
+                            </div>
+                            <div className="w-full sm:w-6/12 lg:w-4/12 px-4 py-4">
+                                <img
+                                    alt="Compactadores"
+                                    src="https://s7d2.scene7.com/is/image/Caterpillar/CM20130904-45250-23505?$cc-s$"
+                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                />
+                                <h2 className="text-xl mb-4 font-semibold text-white">
+                                    Compactadores
+                                </h2>
+                            </div>
+                            <div className="w-full sm:w-6/12 lg:w-4/12 px-4 py-4">
+                                <img
+                                    alt="Camiones de obras"
+                                    src="https://s7d2.scene7.com/is/image/Caterpillar/C833061?$cc-s$"
+                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                />
+                                <h2 className="text-xl mb-4 font-semibold text-white">
+                                    Camiones de obras
+                                </h2>
+                            </div>
+                            <div className="w-full sm:w-6/12 lg:w-4/12 px-4 py-4">
+                                <img
+                                    alt="Perforadoras"
+                                    src="https://s7d2.scene7.com/is/image/Caterpillar/C833758?$cc-s$"
+                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                />
+                                <h2 className="text-xl mb-4 font-semibold text-white">
+                                    Perforadoras
+                                </h2>
+                            </div>
+                            <div className="w-full sm:w-6/12 lg:w-4/12 px-4 py-4">
+                                <img
+                                    alt="Cargadores de cadenas"
+                                    src="https://s7d2.scene7.com/is/image/Caterpillar/C833750?$cc-s$"
+                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                />
+                                <h2 className="text-xl mb-4 font-semibold text-white">
+                                    Cargadores de cadenas
+                                </h2>
                             </div>
                         </div>
                     </div>
