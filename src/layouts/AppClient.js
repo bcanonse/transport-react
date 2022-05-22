@@ -3,7 +3,6 @@ import { Switch, Redirect, Route } from "react-router-dom";
 
 // components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
-import FooterApp from "components/Footers/FooterApp";
 
 // user context
 import { AuthProvider } from "context/AuthProvider";
@@ -14,6 +13,7 @@ import Cotizaciones from 'views/app/Cotizaciones';
 import CardRegisterVendedor from 'components/Cards/app/CardRegisterVendedor';
 import CardRegisterCotizacion from 'components/Cards/app/CardRegisterCotizacion';
 import { CardAsignarVendedor } from 'components/Cards/app/CardAsignarVendedor';
+import { CardUpdateVendedor } from 'components/Cards/app/CardUpdateVendedor';
 
 export default function AppClient() {
     let negocio = localStorage.getItem("negocio");
@@ -35,12 +35,12 @@ export default function AppClient() {
                             <Switch>
                                 <Route path="/app/vendors" exact component={Vendedores} />
                                 <Route path="/app/vendors/create" exact component={CardRegisterVendedor} />
+                                <Route path="/app/vendors/modify" exact component={CardUpdateVendedor} />
                                 <Route path="/app/quotes" exact component={Cotizaciones} />
                                 <Route path="/app/quotes/create" exact component={CardRegisterCotizacion} />
                                 <Route path="/app/quotes/modify" exact component={CardAsignarVendedor} />
                                 <Redirect from="/app" to="/app/dashboard" />
                             </Switch>
-                            <FooterApp />
                         </div>
                     </div>
                 </ProtectedRoutes>

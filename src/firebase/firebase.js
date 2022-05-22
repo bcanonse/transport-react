@@ -4,6 +4,7 @@ import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -67,6 +68,11 @@ export const filterDoc = async (
 };
 
 export const updateCustomDoc = async (path, id, data) => {
-  const docRef = doc(db, path);
+  const docRef = doc(db, path, id);
   await updateDoc(docRef, data);
+}
+
+export const deleteCustomDoc = async (path, id) => {
+  const docRef = doc(db, path, id);
+  await deleteDoc(docRef);
 }
