@@ -14,6 +14,9 @@ import CardRegisterVendedor from 'components/Cards/app/CardRegisterVendedor';
 import CardRegisterCotizacion from 'components/Cards/app/CardRegisterCotizacion';
 import { CardAsignarVendedor } from 'components/Cards/app/CardAsignarVendedor';
 import { CardUpdateVendedor } from 'components/Cards/app/CardUpdateVendedor';
+import { Clientes } from 'views/app/Clientes';
+import { CardRegisterCliente } from 'components/Cards/app/CardRegisterCliente';
+import { CardUpdateCliente } from 'components/Cards/app/CardUpdateCliente';
 
 export default function AppClient() {
     let negocio = localStorage.getItem("negocio");
@@ -36,6 +39,9 @@ export default function AppClient() {
                                 <Route path="/app/vendors" exact component={Vendedores} />
                                 <Route path="/app/vendors/create" exact component={CardRegisterVendedor} />
                                 <Route path="/app/vendors/modify" exact component={CardUpdateVendedor} />
+                                <Route path="/app/clients" exact component={Clientes} />
+                                <Route path="/app/clients/create" exact component={CardRegisterCliente} />
+                                <Route path="/app/clients/modify" exact component={CardUpdateCliente} />
                                 <Route path="/app/quotes" exact component={Cotizaciones} />
                                 <Route path="/app/quotes/create" exact component={CardRegisterCotizacion} />
                                 <Route path="/app/quotes/modify" exact component={CardAsignarVendedor} />
