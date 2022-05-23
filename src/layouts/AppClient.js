@@ -23,6 +23,9 @@ import { CardUpdateProducto } from 'components/Cards/app/CardUpdateProducto';
 import { Proveedores } from 'views/app/Proveedores';
 import { CardRegisterProveedor } from 'components/Cards/app/CardRegisterProveedor';
 import { CardUpdateProveedor } from 'components/Cards/app/CardUpdateProveedor';
+import { Servicios } from 'views/app/Servicios';
+import { CardRegisterServicio } from 'components/Cards/app/CardRegisterServicio';
+import { CardUpdateServicio } from 'components/Cards/app/CardUpdateServicio';
 
 export default function AppClient() {
     let negocio = localStorage.getItem("negocio");
@@ -57,6 +60,9 @@ export default function AppClient() {
                                 <Route path="/app/quotes" exact component={Cotizaciones} />
                                 <Route path="/app/quotes/create" exact component={CardRegisterCotizacion} />
                                 <Route path="/app/quotes/modify" exact component={CardAsignarVendedor} />
+                                <Route path="/app/services" exact component={Servicios} />
+                                <Route path="/app/services/create" exact component={CardRegisterServicio} />
+                                <Route path="/app/services/modify" exact component={CardUpdateServicio} />
                                 <Redirect from="/app" to="/app/dashboard" />
                             </Switch>
                         </div>
