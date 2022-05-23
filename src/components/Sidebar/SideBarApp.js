@@ -3,8 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
-export default function SideBarApp () {
-    const [collapseShow, setCollapseShow] = React.useState("hidden");
+export default function SideBarApp() {
+  const [collapseShow, setCollapseShow] = React.useState("hidden");
   return (
     <>
       <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
@@ -59,13 +59,13 @@ export default function SideBarApp () {
             </div>
 
             {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+            <h6 className="md:min-w-full text-blueGray-400 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               Negocio
             </h6>
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-            <li className="items-center">
+              <li className="items-center">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
@@ -134,7 +134,15 @@ export default function SideBarApp () {
                   Productos
                 </Link>
               </li>
+            </ul>
 
+            <hr className="my-4 md:min-w-full" />
+
+            <h6 className="md:min-w-full text-blueGray-400 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+              Operaciones
+            </h6>
+
+            <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               <li className="items-center">
                 <Link
                   className={
