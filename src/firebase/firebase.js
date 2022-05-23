@@ -67,6 +67,16 @@ export const filterDoc = async (
   return querySnapshot;
 };
 
+export const filterNotEqualsDoc = async (
+  uuid,
+  path,
+  filterKey
+) => {
+  const fromQuery = query(collection(db, path), where(filterKey, "!=", uuid));
+  const querySnapshot = await getDocs(fromQuery);
+  return querySnapshot;
+};
+
 export const updateCustomDoc = async (path, id, data) => {
   const docRef = doc(db, path, id);
   await updateDoc(docRef, data);
