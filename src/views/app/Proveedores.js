@@ -128,12 +128,12 @@ export const Proveedores = () => {
                                                 {data.meta.nit}
                                             </td>
                                             <td className="flex border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                <div className="bg-rose-500 w-1/2" >
+                                                <div className="w-1/2" >
                                                     <button onClick={handleClickUpdate.bind(this, data)} >
                                                         <i className="fas fa-pen text-blue-400"></i>
                                                     </button>
                                                 </div>
-                                                <div className="bg-rose-500 w-1/2" >
+                                                <div className="w-1/2 ml-2" >
                                                     <button onClick={handleClickDelete.bind(this, data)} >
                                                         <i className="fas fa-trash text-red-500"></i>
                                                     </button>
