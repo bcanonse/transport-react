@@ -6,6 +6,7 @@ import { Listbox } from '@headlessui/react';
 import { updateCustomDoc, filterDoc } from "firebase/firebase";
 import { useHistory, useLocation } from "react-router-dom";
 import { InputNumberField } from "components/Inputs/InputNumberField";
+import { getImageUrl } from 'firebase/firebase';
 
 const listTipoProduct = ["Materia prima", "Producto terminado"];
 
@@ -28,6 +29,8 @@ export const CardUpdateProducto = () => {
     }]);
 
     const [selectedProveedor, setSelectedProveedor] = React.useState(proveedores[0]);
+
+    const [file, setFile] = React.useState(null);
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
@@ -66,6 +69,8 @@ export const CardUpdateProducto = () => {
             }
             values.push(value.data())
         })
+        const url = await getImageUrl(producto.imagen);
+        setFile(url);
         setProveedores(values);
         setErrorOrOk("")
     }
@@ -171,6 +176,21 @@ export const CardUpdateProducto = () => {
                                         Tipo de producto
                                     </label>
                                     {getTipoProductos()}
+                                </div>
+                            </div>
+                            <div className="w-full lg:w-6/12 px-4">
+                                <div className="relative w-full mb-3">
+                                    <label
+                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlFor="grid-password"
+                                    >
+                                        Imagen
+                                        <img
+                                            src={file}
+                                            className="w-32 h-32 object-contain rounded-2xl shadow-lg mb-6"
+                                        />
+
+                                    </label>
                                 </div>
                             </div>
                             <div className="w-full lg:w-6/12 px-4">

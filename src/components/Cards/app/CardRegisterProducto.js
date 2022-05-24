@@ -6,7 +6,7 @@ import { Listbox } from '@headlessui/react';
 
 import { v4 as uuid } from 'uuid';
 import { InputNumberField } from "components/Inputs/InputNumberField";
-import { filterDoc } from "firebase/firebase";
+import { filterDoc, setFileImage } from "firebase/firebase";
 
 const listTipoProduct = ["Materia prima", "Producto terminado"];
 
@@ -26,6 +26,7 @@ export const CardRegisterProducto = () => {
         costo: 0.00,
         cantidad: 0.00,
         proveedor: '',
+        imagen: ''
     }
 
     const [producto, setProducto] = React.useState(STATE_INITIAL);
@@ -39,17 +40,31 @@ export const CardRegisterProducto = () => {
 
     const [selectedProveedor, setSelectedProveedor] = React.useState(proveedores[0]);
 
+    const [file, setFile] = React.useState(null);
+    const [image, setImage] = React.useState(null);
+
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         producto.tipoProducto = selectedTipoP;
         producto.proveedor = selectedProveedor.id;
         setErrorOrOk("");
         try {
-            const response = await createDoc("productos", producto);
-            if (response && response.id.length > 0) {
-                setProducto(STATE_INITIAL);
-                setErrorOrOk("Producto creado");
-                navigate.push('/app/products');
+            let fileReader = new FileReader();
+            if (image) {
+                fileReader.readAsArrayBuffer(image);
+                fileReader.onload = async function () {
+                    let imageData = fileReader.result;
+                    const res = await setFileImage(producto.id, imageData);
+                    if (res) {
+                        producto.imagen = res.metadata.fullPath;
+                        const response = await createDoc("productos", producto);
+                        if (response && response.id.length > 0) {
+                            setProducto(STATE_INITIAL);
+                            setErrorOrOk("Producto creado");
+                            navigate.push('/app/products');
+                        }
+                    }
+                };
             }
 
         } catch (error) {
@@ -73,6 +88,16 @@ export const CardRegisterProducto = () => {
             ...producto,
             [evt.target.name]: evt.target.value
         })
+    }
+
+    const handleChangeFile = (event) => {
+        let fileList = event.target.files;
+        let fileReader = new FileReader();
+
+        if (fileReader && fileList && fileList.length) {
+            setImage(event.target.files[0]);
+            setFile(URL.createObjectURL(event.target.files[0]));
+        }
     }
 
 
@@ -185,6 +210,26 @@ export const CardRegisterProducto = () => {
                                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                         htmlFor="grid-password"
                                     >
+                                        <img
+                                            src={file}
+                                            className="w-32 h-32 object-contain rounded-2xl shadow-lg mb-6"
+                                        />
+                                        Imagen
+                                    </label>
+                                    <input
+                                        name="imagen"
+                                        onChange={handleChangeFile}
+                                        type="file"
+                                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-full lg:w-6/12 px-4">
+                                <div className="relative w-full mb-3">
+                                    <label
+                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlFor="grid-password"
+                                    >
                                         Proveedor
                                     </label>
                                     {getTipoProveedores()}
@@ -257,7 +302,7 @@ export const CardRegisterProducto = () => {
                         </div>
                         <hr className="mt-6 border-b-1 border-blueGray-300" />
                         <button
-                            disabled={!producto.nombre || !producto.costo || !producto.cantidad || !selectedTipoP || !selectedProveedor.id}
+                            disabled={!producto.nombre || !producto.costo || !producto.cantidad || !selectedTipoP}
                             className="bg-lightBlue-500 mt-6 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                         >
                             Agregar

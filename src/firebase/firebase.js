@@ -13,6 +13,13 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  getBytes,
+} from "firebase/storage";
 
 
 const firebaseConfig = {
@@ -85,4 +92,21 @@ export const updateCustomDoc = async (path, id, data) => {
 export const deleteCustomDoc = async (path, id) => {
   const docRef = doc(db, path, id);
   await deleteDoc(docRef);
+}
+
+export const setFileImage = async (uid, file) => {
+  const storage = getStorage();
+
+  const mountainImagesRef = ref(storage, `images/${uid}`);
+  const res = await uploadBytes(mountainImagesRef, file);
+  return res;
+}
+
+export const getImageUrl = async(image) => {
+  const storage = getStorage();
+  const imageRef = ref(storage, image);
+
+  const url = await getDownloadURL(imageRef);
+
+  return url;
 }
