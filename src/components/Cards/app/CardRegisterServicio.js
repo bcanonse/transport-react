@@ -8,11 +8,14 @@ import { Listbox } from '@headlessui/react';
 import { InputNumberField } from "components/Inputs/InputNumberField";
 
 import AlertPopper from "components/Alerts/AlertPopper";
-import { Servicios } from "views/app/Servicios";
+import { useAuth } from "context/AuthProvider";
+import { Timestamp } from "firebase/firestore";
 
 const tiposServicios = ["Exportación", "Transporte", "Alquiler"]
 
 export const CardRegisterServicio = () => {
+    const { user } = useAuth();
+
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 
@@ -25,6 +28,9 @@ export const CardRegisterServicio = () => {
         id_cliente: '',
         tipoServicio: '',
         total: '',
+        usuario_id: '',
+        usuario: '',
+        fechaHora: Timestamp.fromDate(new Date()),
     }
 
     const [servicio, setServicio] = React.useState(STATE_INITIAL);
@@ -79,6 +85,8 @@ export const CardRegisterServicio = () => {
         servicio.id_cliente = selectedCliente.id;
         servicio.tipoServicio = selectedTipoServicio;
         servicio.id_vendedor = selectedVendedor.id;
+        servicio.usuario_id = user.uid;
+        servicio.usuario = user.email.substring(0, user.email.indexOf('@'));
         try {
             const response = await createDoc("servicios", servicio);
             if (response && response.id.length > 0) {

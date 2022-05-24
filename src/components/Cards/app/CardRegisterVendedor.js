@@ -4,11 +4,12 @@ import AlertPopper from "components/Alerts/AlertPopper";
 import { useHistory } from "react-router-dom";
 
 import { v4 as uuid } from 'uuid';
-
-
-
+import { useAuth } from "context/AuthProvider";
+import { Timestamp } from "firebase/firestore";
 
 const CardRegisterVendedor = () => {
+    const { user } = useAuth();
+
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 
@@ -19,7 +20,10 @@ const CardRegisterVendedor = () => {
         id_negocio: negocio.codigo,
         nombre: '',
         direccion: '',
-        email: ''
+        email: '',
+        usuario_id: '',
+        usuario: '',
+        fechaHora: Timestamp.fromDate(new Date()),
     }
 
     const [vendedor, setVendedor] = React.useState(STATE_INITIAL);
@@ -29,6 +33,8 @@ const CardRegisterVendedor = () => {
         evt.preventDefault();
         setErrorOrOk("");
         try {
+            vendedor.usuario_id = user.uid;
+            vendedor.usuario = user.email.substring(0, user.email.indexOf('@'));
             const response = await createDoc("vendedores", vendedor);
             if (response && response.id.length > 0) {
                 setVendedor(STATE_INITIAL);

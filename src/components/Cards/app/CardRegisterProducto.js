@@ -8,9 +8,14 @@ import { v4 as uuid } from 'uuid';
 import { InputNumberField } from "components/Inputs/InputNumberField";
 import { filterDoc, setFileImage } from "firebase/firebase";
 
+import { useAuth } from "context/AuthProvider";
+import { Timestamp } from "firebase/firestore";
+
 const listTipoProduct = ["Materia prima", "Producto terminado"];
 
 export const CardRegisterProducto = () => {
+    const { user } = useAuth();
+
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 
@@ -26,7 +31,10 @@ export const CardRegisterProducto = () => {
         costo: 0.00,
         cantidad: 0.00,
         proveedor: '',
-        imagen: ''
+        imagen: '',
+        usuario_id: '',
+        usuario: '',
+        fechaHora: Timestamp.fromDate(new Date()),
     }
 
     const [producto, setProducto] = React.useState(STATE_INITIAL);
@@ -57,6 +65,8 @@ export const CardRegisterProducto = () => {
                     const res = await setFileImage(producto.id, imageData);
                     if (res) {
                         producto.imagen = res.metadata.fullPath;
+                        producto.usuario_id = user.uid;
+                        producto.usuario = user.email.substring(0, user.email.indexOf('@'));
                         const response = await createDoc("productos", producto);
                         if (response && response.id.length > 0) {
                             setProducto(STATE_INITIAL);

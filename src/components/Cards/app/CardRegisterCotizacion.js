@@ -7,9 +7,13 @@ import { Timestamp } from "firebase/firestore";
 
 import { v4 as uuid } from 'uuid';
 import { filterDoc } from "firebase/firebase";
+import { useAuth } from "context/AuthProvider";
+import { Timestamp } from "firebase/firestore";
 
 
 const CardRegisterCotizacion = () => {
+    const { user } = useAuth();
+
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 
@@ -22,7 +26,10 @@ const CardRegisterCotizacion = () => {
         email: '',
         descripcion: '',
         esGenerica: false,
-        id_vendedor: ''
+        id_vendedor: '',
+        usuario_id: '',
+        usuario: '',
+        fechaHora: Timestamp.fromDate(new Date()),
     }
 
     const [cotizacion, setCotizacion] = React.useState(STATE_INITIAL);
@@ -50,6 +57,8 @@ const CardRegisterCotizacion = () => {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         cotizacion.id_vendedor = selectedVendedor.id;
+        cotizacion.usuario_id = user.uid;
+        cotizacion.usuario = user.email.substring(0, user.email.indexOf('@'));
         setErrorOrOk("");
         try {
             const response = await createDoc("cotizaciones", cotizacion);

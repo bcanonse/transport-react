@@ -10,10 +10,13 @@ import AlertPopper from "components/Alerts/AlertPopper";
 import { filterNotEqualsDoc } from "firebase/firebase";
 import { InputNumberField } from "components/Inputs/InputNumberField";
 
+import { useAuth } from "context/AuthProvider";
+import { Timestamp } from "firebase/firestore";
 
 const prioridad = ["Baja", "Importante"];
 
 export const CardRegisterPedidoInterno = () => {
+    const { user } = useAuth();
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 
@@ -25,6 +28,9 @@ export const CardRegisterPedidoInterno = () => {
         negocio_recibe: negocio.codigo,
         negocio_pide: '',
         prioridad: '',
+        usuario_id: '',
+        usuario: '',
+        fechaHora: Timestamp.fromDate(new Date()),
         detalle: [{}]
     }
 
@@ -96,6 +102,8 @@ export const CardRegisterPedidoInterno = () => {
         pedido.negocio_pide = selectedNegocio.codigo;
         pedido.prioridad = selectedPrioridad;
         pedido.detalle = detalle
+        pedido.usuario_id = user.uid;
+        pedido.usuario = user.email.substring(0, user.email.indexOf('@'));
         try {
             const response = await createDoc("pedidos_internos", pedido);
             if (response && response.id.length > 0) {

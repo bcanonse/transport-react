@@ -4,8 +4,12 @@ import AlertPopper from "components/Alerts/AlertPopper";
 import { useHistory } from "react-router-dom";
 
 import { v4 as uuid } from 'uuid';
+import { useAuth } from "context/AuthProvider";
+import { Timestamp } from "firebase/firestore";
 
 export const CardRegisterCliente = () => {
+    const { user } = useAuth();
+
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 
@@ -18,6 +22,9 @@ export const CardRegisterCliente = () => {
         direccion: '',
         email: '',
         nit: '',
+        usuario_id: '',
+        usuario: '',
+        fechaHora: Timestamp.fromDate(new Date()),
     }
 
     const [cliente, setCliente] = React.useState(STATE_INITIAL);
@@ -27,6 +34,8 @@ export const CardRegisterCliente = () => {
         evt.preventDefault();
         setErrorOrOk("");
         try {
+            cliente.usuario_id = user.uid;
+            cliente.usuario = user.email.substring(0, user.email.indexOf('@'));
             const response = await createDoc("clientes", cliente);
             if (response && response.id.length > 0) {
                 setCliente(STATE_INITIAL);
