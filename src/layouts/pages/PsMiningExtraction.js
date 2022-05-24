@@ -1,9 +1,12 @@
+import FooterSite from "components/Footers/FooterSite";
+import NavbarSite from "components/Navbars/NavBarSite";
 import FormQuote from "../../components/Forms/FormQuote";
 
 const PsMiningExtraction = () => {
-    window.scroll(0,0)
+    window.scroll(0, 0)
     return (
         <>
+            <NavbarSite />
             <main>
                 {/* Form quote */}
                 <section className="pb-20 relative block bg-blueGray-800">
@@ -65,6 +68,7 @@ const PsMiningExtraction = () => {
                     </div>
                 </section>
             </main>
+            <FooterSite />
         </>
     )
 }

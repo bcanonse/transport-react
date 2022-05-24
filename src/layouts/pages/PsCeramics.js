@@ -1,12 +1,72 @@
-import FormQuote from "../../components/Forms/FormQuote";
+import FooterSite from 'components/Footers/FooterSite';
+import NavbarSiteCart from 'components/Navbars/NavBarSiteCart';
+import { getImageUrl } from 'firebase/firebase';
+import { filterDoc } from 'firebase/firebase';
+import React from 'react';
+import { useHistory } from "react-router-dom";
+
 
 const PsCeramics = () => {
-    window.scroll(0, 0)
+    let detalleStorage = sessionStorage.getItem("detalle");
+    detalleStorage = JSON.parse(detalleStorage);
+
+    const navigate = useHistory();
+
+    const [productos, setProductos] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+    const [detalle, setDetalle] = React.useState(detalleStorage ?? []);
+
+    const getProductos = async () => {
+        const values = [];
+        const response = await filterDoc(6, "productos", "id_negocio");
+        response.forEach(element => {
+            const { estado, tipoProducto } = element.data();
+            if (estado && tipoProducto === 'Producto terminado') {
+                values.push(element.data());
+            }
+        });
+
+        for (const value of values) {
+            const url = await getImageUrl(value.imagen);
+            value.url = url;
+        }
+        setLoading(false);
+        setProductos(values);
+    }
+
+    const handleAddItem = (data, event) => {
+        event.preventDefault();
+        setDetalle([
+            ...detalle,
+            data
+        ]);
+    }
+
+    const handleClickCart = (event) => {
+        event.preventDefault();
+        if (detalle.length) {
+            sessionStorage.setItem("detalle", JSON.stringify(detalle));
+            navigate.push('/business/ceramics/cart');    
+        }
+        
+    }
+
+    React.useEffect(() => {
+        window.scroll(0, 0);
+        getProductos();
+    }, []);
+
+
     return (
         <>
+            <NavbarSiteCart detail={detalle} handleClick={handleClickCart} />
             <main>
                 {/* Form quote */}
-                <section className="pb-20 relative block bg-blueGray-800">
+                <section className={
+
+                    "pb-20 relative block bg-blueGray-800 " +
+                    (loading ? "animate-pulse" : "")
+                }>
                     <div
                         className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
                         style={{ transform: "translateZ(0)" }}
@@ -58,16 +118,42 @@ const PsCeramics = () => {
                 </section>
                 <section className="relative block py-24 lg:pt-0 bg-blueGray-800">
                     <div className="container mx-auto px-4">
-                        <div className="flex flex-wrap justify-center lg:-mt-64 -mt-48">
-                            <div className="w-full lg:w-6/12 px-4">
-                                <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
-                                    <FormQuote company={6} />
-                                </div>
-                            </div>
+                        <div className="flex flex-wrap justify-center text-center lg:-mt-64 -mt-48">
+                            {
+                                productos.map((data, index) => {
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="w-full sm:w-6/12 lg:w-4/12 px-4 py-4">
+                                            <img
+                                                alt="Canto rodado"
+                                                src={data.url}
+                                                className="w-64 h-64 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                            />
+                                            <h2 className="text-xl mb-4 font-semibold text-white">
+                                                {data.nombre}
+                                            </h2>
+                                            <h5 className="text-sm mb-4 font-medium text-white">
+                                                Precio: Q. {data.costo}
+                                            </h5>
+                                            <h6 className="text-xs mb-4 font-medium text-white">
+                                                SKU: {data.sku}
+                                            </h6>
+                                            <button
+                                                className="bg-blueGray-200 text-blueGray-500 font-bold text-sm px-6 py-4 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                                onClick={handleAddItem.bind(this, data)}
+                                            >
+                                                Comprar
+                                            </button>
+                                        </div>
+                                    );
+                                })
+                            }
                         </div>
                     </div>
                 </section>
             </main>
+            <FooterSite />
         </>
     )
 }

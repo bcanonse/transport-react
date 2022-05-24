@@ -1,9 +1,12 @@
+import FooterSite from "components/Footers/FooterSite";
+import NavbarSite from "components/Navbars/NavBarSite";
 import FormQuote from "../../components/Forms/FormQuote";
 
 const PsMachineBuild = () => {
     window.scroll(0, 0)
     return (
         <>
+            <NavbarSite />
             <main>
                 {/* Form quote */}
                 <section className="pb-20 relative block bg-blueGray-800">
@@ -60,7 +63,7 @@ const PsMachineBuild = () => {
                                 <img
                                     alt="Excavadora"
                                     src="https://s7d2.scene7.com/is/image/Caterpillar/CM20200803-7d970-4b60a?$cc-s$"
-                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                    className="w-64 h-64 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
                                 />
                                 <h2 className="text-xl mb-4 font-semibold text-white">
                                     Excavadora
@@ -70,7 +73,7 @@ const PsMachineBuild = () => {
                                 <img
                                     alt="Pavimentadoras de asfalto"
                                     src="https://s7d2.scene7.com/is/image/Caterpillar/C10412030?$cc-s$"
-                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                    className="w-64 h-64 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
                                 />
                                 <h2 className="text-xl mb-4 font-semibold text-white">
                                     Pavimentadoras de asfalto
@@ -80,7 +83,7 @@ const PsMachineBuild = () => {
                                 <img
                                     alt="Compactadores"
                                     src="https://s7d2.scene7.com/is/image/Caterpillar/CM20130904-45250-23505?$cc-s$"
-                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                    className="w-64 h-64 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
                                 />
                                 <h2 className="text-xl mb-4 font-semibold text-white">
                                     Compactadores
@@ -90,7 +93,7 @@ const PsMachineBuild = () => {
                                 <img
                                     alt="Camiones de obras"
                                     src="https://s7d2.scene7.com/is/image/Caterpillar/C833061?$cc-s$"
-                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                    className="w-64 h-64 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
                                 />
                                 <h2 className="text-xl mb-4 font-semibold text-white">
                                     Camiones de obras
@@ -100,7 +103,7 @@ const PsMachineBuild = () => {
                                 <img
                                     alt="Perforadoras"
                                     src="https://s7d2.scene7.com/is/image/Caterpillar/C833758?$cc-s$"
-                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                    className="w-64 h-64 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
                                 />
                                 <h2 className="text-xl mb-4 font-semibold text-white">
                                     Perforadoras
@@ -110,7 +113,7 @@ const PsMachineBuild = () => {
                                 <img
                                     alt="Cargadores de cadenas"
                                     src="https://s7d2.scene7.com/is/image/Caterpillar/C833750?$cc-s$"
-                                    className="w-24 h-24 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
+                                    className="w-64 h-64 mb-5 object-cover shadow-xl rounded-lg inline-flex items-center justify-center text-center"
                                 />
                                 <h2 className="text-xl mb-4 font-semibold text-white">
                                     Cargadores de cadenas
@@ -131,6 +134,7 @@ const PsMachineBuild = () => {
                     </div>
                 </section>
             </main>
+            <FooterSite />
         </>
     )
 }

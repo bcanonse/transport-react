@@ -1285,6 +1285,10 @@ select {
   border-radius: 0.5rem;
 }
 
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
 .rounded-full {
   border-radius: 9999px;
 }
@@ -1414,8 +1418,16 @@ select {
   float: left;
 }
 
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 .font-normal {
   font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
 }
 
 .font-semibold {
@@ -1468,6 +1480,10 @@ select {
 
 .h-32 {
   height: 8rem;
+}
+
+.h-64 {
+  height: 16rem;
 }
 
 .h-auto {
@@ -1543,6 +1559,10 @@ select {
   line-height: 1;
 }
 
+.leading-tight {
+  line-height: 1.25;
+}
+
 .leading-normal {
   line-height: 1.5;
 }
@@ -1553,6 +1573,10 @@ select {
 
 .list-none {
   list-style-type: none;
+}
+
+.m-0 {
+  margin: 0px;
 }
 
 .m-2 {
@@ -1792,6 +1816,10 @@ select {
   min-width: 140px;
 }
 
+.object-contain {
+  object-fit: contain;
+}
+
 .object-cover {
   object-fit: cover;
 }
@@ -1828,6 +1856,10 @@ select {
 
 .overflow-x-hidden {
   overflow-x: hidden;
+}
+
+.p-0 {
+  padding: 0px;
 }
 
 .p-1 {
@@ -2319,6 +2351,10 @@ select {
 
 .w-32 {
   width: 8rem;
+}
+
+.w-64 {
+  width: 16rem;
 }
 
 .w-auto {
