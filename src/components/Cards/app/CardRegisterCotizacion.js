@@ -4,11 +4,11 @@ import AlertPopper from "components/Alerts/AlertPopper";
 import { useHistory } from "react-router-dom";
 import { Listbox } from '@headlessui/react';
 import { Timestamp } from "firebase/firestore";
+import { InputNumberField } from "components/Inputs/InputNumberField";
 
 import { v4 as uuid } from 'uuid';
 import { filterDoc } from "firebase/firebase";
 import { useAuth } from "context/AuthProvider";
-import { Timestamp } from "firebase/firestore";
 
 
 const CardRegisterCotizacion = () => {
@@ -30,6 +30,7 @@ const CardRegisterCotizacion = () => {
         usuario_id: '',
         usuario: '',
         fechaHora: Timestamp.fromDate(new Date()),
+        total: 0.00
     }
 
     const [cotizacion, setCotizacion] = React.useState(STATE_INITIAL);
@@ -186,6 +187,21 @@ const CardRegisterCotizacion = () => {
                                         value={cotizacion.descripcion}
                                         onChange={handleChange}
                                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-full lg:w-6/12 px-4">
+                                <div className="relative w-full mb-3">
+                                    <label
+                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlFor="grid-password"
+                                    >
+                                        Total
+                                    </label>
+                                    <InputNumberField
+                                        name="total"
+                                        value={cotizacion.total}
+                                        onChange={handleChange}
                                     />
                                 </div>
                             </div>

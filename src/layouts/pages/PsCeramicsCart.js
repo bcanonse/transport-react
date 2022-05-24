@@ -249,7 +249,22 @@ export const PsCeramicsCart = () => {
                                         </div>
                                     </div>
                                 </div>
-
+                                <h6 className="text-blueGray-400 text-xl mt-3 mb-6 font-bold">
+                                    Total de &iacute;tems: Q. {
+                                        detalle.reduce(
+                                            (previousValue, currentValue) => previousValue + parseFloat(currentValue.cantidad),
+                                            0
+                                        )
+                                    }
+                                </h6>
+                                <h6 className="text-blueGray-400 text-xl mt-3 mb-6 font-bold">
+                                    Total de precio: Q. {
+                                        detalle.reduce(
+                                            (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad) * parseFloat(currentValue.costo)),
+                                            0
+                                        )
+                                    }
+                                </h6>
                                 <button
                                     disabled={!detalle.length > 0 || !pedido.nombre || !pedido.nit || !pedido.descripcion}
                                     className="bg-blueGray-200 text-blueGray-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
