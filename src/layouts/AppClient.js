@@ -29,6 +29,8 @@ import { CardUpdateServicio } from 'components/Cards/app/CardUpdateServicio';
 import { PedidosInternos } from 'views/app/PedidosInternos';
 import { CardRegisterPedidoInterno } from 'components/Cards/app/CardRegisterPedidoInterno';
 import { CardUpdatePedidoInterno } from 'components/Cards/app/CardUpdatePedidoInterno';
+import { PedidosExternos } from 'views/app/PedidosExternos';
+import { CardUpdatePedidoExterno } from 'components/Cards/app/CardUpdatePedidoExterno';
 
 export default function AppClient() {
     let negocio = localStorage.getItem("negocio");
@@ -69,6 +71,8 @@ export default function AppClient() {
                                 <Route path="/app/internal-orders" exact component={PedidosInternos} />
                                 <Route path="/app/internal-orders/create" exact component={CardRegisterPedidoInterno} />
                                 <Route path="/app/internal-orders/modify" exact component={CardUpdatePedidoInterno} />
+                                <Route path="/app/external-orders" exact component={PedidosExternos} />
+                                <Route path="/app/external-orders/modify" exact component={CardUpdatePedidoExterno} />
                                 <Redirect from="/app" to="/app/dashboard" />
                             </Switch>
                         </div>
