@@ -3,54 +3,50 @@ import React from 'react';
 import { useHistory } from "react-router-dom";
 
 import { filterDoc, deleteCustomDoc } from "firebase/firebase";
-import { getCollections } from 'firebase/firebase';
 
-export const PedidosInternos = () => {
+export const IngresoInventario = () => {
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 
     const navigate = useHistory();
 
-    const [pedidos, setPedidos] = React.useState([]);
-
+    const [ingresos, setIngresos] = React.useState([]);
+    
     const getPedidos = async () => {
         const tPedidos = [];
-        const tNegocios = [];
+        const tSucursales = [];
         const response =
-            await getCollections("negocios");
+            await filterDoc(negocio.codigo, "sucursales", "id_negocio");
 
         response.forEach(element => {
-            tNegocios.push(element.data());
+            tSucursales.push(element.data());
         });
 
-        for (const value of tNegocios) {
+        for (const value of tSucursales) {
             const pedidos =
-                await filterDoc(negocio.codigo, "pedidos_internos", "negocio_recibe");
+                await filterDoc(value.id, "ingresos_inventarios", "id_sucursal");
             pedidos.forEach(element => {
-                const { negocio_pide: negocioPide } = element.data();
-                if (value.codigo === negocioPide) {
-                    const data = {
-                        id: element.id,
-                        meta: element.data(),
-                        negocio: value
-                    }
-                    tPedidos.push(data);
+                const data = {
+                    id: element.id,
+                    meta: element.data(),
+                    sucursal: value
                 }
+                tPedidos.push(data);
             })
         }
-        setPedidos(tPedidos);
+        setIngresos(tPedidos);
     }
 
     const handleClickNavigate = () => {
         navigate.push({
-            pathname: 'internal-orders/create'
+            pathname: 'inventory-income/create'
         });
     }
 
     const handleClickUpdate = (data, evt) => {
         if (data.id) {
             navigate.push({
-                pathname: '/app/internal-orders/modify',
+                pathname: '/app/inventory-income/modify',
                 state: data
             })
         }
@@ -59,9 +55,9 @@ export const PedidosInternos = () => {
     const handleClickDelete = async (data, evt) => {
         if (data.id) {
             try {
-                await deleteCustomDoc("pedidos_internos", data.id);
-                const newCot = pedidos.filter((value) => value.id !== data.id);
-                setPedidos(newCot);
+                await deleteCustomDoc("ingresos_inventarios", data.id);
+                const newCot = ingresos.filter((value) => value.id !== data.id);
+                setIngresos(newCot);
             } catch (error) {
                 console.error(error);
             }
@@ -87,7 +83,7 @@ export const PedidosInternos = () => {
                                         <h3
                                             className="font-semibold text-lg text-blueGray-700"
                                         >
-                                            Pedidos internos
+                                            Ingreso a inventarios
                                         </h3>
                                     </div>
                                     <div className="w-1/2">
@@ -118,22 +114,22 @@ export const PedidosInternos = () => {
                                         <th
                                             className="px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                                         >
-                                            Prioridad
+                                            Sucursal
                                         </th>
                                         <th
                                             className="px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                                         >
-                                            Negocio que solicita
+                                            Total de &iacute;tems
                                         </th>
                                         <th
                                             className="px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                                         >
-                                            Total
+                                            Total de costo
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {pedidos.map((data, key) => {
+                                    {ingresos.map((data, key) => {
                                         return (<tr className="cursor-pointer" role="row" key={key}>
                                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                 {data.meta.fecha}
@@ -142,19 +138,22 @@ export const PedidosInternos = () => {
                                                 {data.meta.descripcion}
                                             </td>
                                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                {data.meta.prioridad}
+                                                {data.sucursal.nombre}
                                             </td>
                                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                {data.negocio.nombre}
+                                                {data.meta.detalle.reduce(
+                                                    (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad)),
+                                                    0
+                                                )}
                                             </td>
                                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                 Q {data.meta.detalle.reduce(
-                                                    (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad) * parseFloat(currentValue.precio)),
+                                                    (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad) * parseFloat(currentValue.costo)),
                                                     0
                                                 )}
                                             </td>
                                             <td className="flex border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                <div className="w-1/2" >
+                                                <div className="w-1/2  hidden" >
                                                     <button onClick={handleClickUpdate.bind(this, data)} >
                                                         <i className="fas fa-pen text-blue-400"></i>
                                                     </button>

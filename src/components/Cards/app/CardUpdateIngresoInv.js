@@ -9,7 +9,7 @@ import { InputNumberField } from "components/Inputs/InputNumberField";
 
 const prioridad = ["Baja", "Importante"];
 
-export const CardUpdatePedidoInterno = () => {
+export const CardUpdateIngresoInv = () => {
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 

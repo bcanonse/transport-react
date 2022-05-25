@@ -29,6 +29,7 @@ export const CardRegisterProducto = () => {
         tipoProducto: '',
         estado: true,
         costo: 0.00,
+        precio: 0.00,
         cantidad: 0.00,
         proveedor: '',
         imagen: '',
@@ -270,9 +271,27 @@ export const CardRegisterProducto = () => {
                                     >
                                         Costo
                                     </label>
-                                    <InputNumberField
+                                    <input
                                         name="costo"
                                         value={producto.costo}
+                                        type="text"
+                                        disabled={true}
+                                        onChange={handleChange}
+                                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-full lg:w-6/12 px-4">
+                                <div className="relative w-full mb-3">
+                                    <label
+                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlFor="grid-password"
+                                    >
+                                        Precio
+                                    </label>
+                                    <InputNumberField
+                                        name="precio"
+                                        value={producto.precio}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -285,10 +304,13 @@ export const CardRegisterProducto = () => {
                                     >
                                         Cantidad
                                     </label>
-                                    <InputNumberField
+                                    <input
                                         name="cantidad"
                                         value={producto.cantidad}
+                                        type="text"
+                                        disabled={true}
                                         onChange={handleChange}
+                                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                     />
                                 </div>
                             </div>
@@ -312,7 +334,7 @@ export const CardRegisterProducto = () => {
                         </div>
                         <hr className="mt-6 border-b-1 border-blueGray-300" />
                         <button
-                            disabled={!producto.nombre || !producto.costo || !producto.cantidad || !selectedTipoP}
+                            disabled={!producto.nombre || !producto.costo || !producto.cantidad || !selectedTipoP || !producto.precio}
                             className="bg-lightBlue-500 mt-6 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                         >
                             Agregar

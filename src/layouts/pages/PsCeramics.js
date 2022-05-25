@@ -134,7 +134,7 @@ const PsCeramics = () => {
                                                 {data.nombre}
                                             </h2>
                                             <h5 className="text-sm mb-4 font-medium text-white">
-                                                Precio: Q. {data.costo}
+                                                Precio: Q. {data.precio}
                                             </h5>
                                             <h6 className="text-xs mb-4 font-medium text-white">
                                                 SKU: {data.sku}

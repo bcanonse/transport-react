@@ -50,7 +50,7 @@ export const CardRegisterPedidoInterno = () => {
         id: '',
         nombre: 'Producto',
         cantidad: 0,
-        costo: 0,
+        precio: 0,
     }]);
     const [selectedProducto, setSelectProducto] = React.useState(productos[0]);
 
@@ -168,7 +168,7 @@ export const CardRegisterPedidoInterno = () => {
 
     const handleChangeProducto = (data) => {
         setSelectProducto(data);
-        const { id, nombre: producto, costo } = data;
+        const { id, nombre: producto, precio } = data;
 
         setDetalle([
             ...detalle,
@@ -176,7 +176,7 @@ export const CardRegisterPedidoInterno = () => {
                 id,
                 producto,
                 cantidad: 0.00,
-                costo: costo,
+                precio: precio,
             }
         ])
     }
@@ -339,7 +339,7 @@ export const CardRegisterPedidoInterno = () => {
                                                             <th
                                                                 className="px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                                                             >
-                                                                Costo
+                                                                Precio
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -358,8 +358,8 @@ export const CardRegisterPedidoInterno = () => {
                                                                 </td>
                                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                                     <InputNumberField
-                                                                        name="costo"
-                                                                        value={data.costo}
+                                                                        name="precio"
+                                                                        value={data.precio}
                                                                         onChange={handleChangeItems.bind(this, key, data)}
                                                                     />
                                                                 </td>
@@ -373,6 +373,23 @@ export const CardRegisterPedidoInterno = () => {
                                                         }
                                                     </tbody>
                                                 </table>
+
+                                                <h6 className="text-blueGray-400 px-6 text-sm mt-3 mb-6 font-bold">
+                                                    Total de &iacute;tems: Q. {
+                                                        detalle.reduce(
+                                                            (previousValue, currentValue) => previousValue + parseFloat(currentValue.cantidad),
+                                                            0
+                                                        )
+                                                    }
+                                                </h6>
+                                                <h6 className="text-blueGray-400 text-sm px-6 mt-3 mb-6 font-bold">
+                                                    Total de precio: Q. {
+                                                        detalle.reduce(
+                                                            (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad) * parseFloat(currentValue.precio)),
+                                                            0
+                                                        )
+                                                    }
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>

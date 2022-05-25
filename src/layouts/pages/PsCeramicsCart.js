@@ -205,7 +205,7 @@ export const PsCeramicsCart = () => {
                                                                     <th
                                                                         className="px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                                                                     >
-                                                                        Costo
+                                                                        Precio
                                                                     </th>
                                                                 </tr>
                                                             </thead>
@@ -230,7 +230,7 @@ export const PsCeramicsCart = () => {
                                                                             />
                                                                         </td>
                                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                                            Precio: Q. {data.costo}
+                                                                            Precio: Q. {data.precio}
                                                                         </td>
                                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-center text-xs whitespace-nowrap p-4">
                                                                             <button onClick={handleClickDelete.bind(this, key)} >
@@ -260,7 +260,7 @@ export const PsCeramicsCart = () => {
                                 <h6 className="text-blueGray-400 text-xl mt-3 mb-6 font-bold">
                                     Total de precio: Q. {
                                         detalle.reduce(
-                                            (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad) * parseFloat(currentValue.costo)),
+                                            (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad) * parseFloat(currentValue.precio)),
                                             0
                                         )
                                     }

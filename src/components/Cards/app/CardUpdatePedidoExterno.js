@@ -28,7 +28,7 @@ export const CardUpdatePedidoExterno = () => {
         id: '',
         nombre: 'Producto',
         cantidad: 0,
-        costo: 0,
+        precio: 0,
     }]);
 
     const [selectedProducto, setSelectProducto] = React.useState(productos[0]);
@@ -76,7 +76,7 @@ export const CardUpdatePedidoExterno = () => {
 
     const handleChangeProducto = (data) => {
         setSelectProducto(data);
-        const { id, nombre: producto, costo } = data;
+        const { id, nombre: producto, precio } = data;
 
         setDetalle([
             ...detalle,
@@ -84,7 +84,7 @@ export const CardUpdatePedidoExterno = () => {
                 id,
                 producto,
                 cantidad: 0.00,
-                costo: costo,
+                precio: precio,
             }
         ])
     }
@@ -240,7 +240,7 @@ export const CardUpdatePedidoExterno = () => {
                                                             <th
                                                                 className="px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
                                                             >
-                                                                Costo
+                                                                Precio
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -259,8 +259,8 @@ export const CardUpdatePedidoExterno = () => {
                                                                 </td>
                                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                                     <InputNumberField
-                                                                        name="costo"
-                                                                        value={data.costo}
+                                                                        name="precio"
+                                                                        value={data.precio}
                                                                         onChange={handleChangeItems.bind(this, key, data)}
                                                                     />
                                                                 </td>
@@ -286,7 +286,7 @@ export const CardUpdatePedidoExterno = () => {
                                                 <h6 className="text-blueGray-400 text-sm px-6 mt-3 mb-6 font-bold">
                                                     Total de precio: Q. {
                                                         detalle.reduce(
-                                                            (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad) * parseFloat(currentValue.costo)),
+                                                            (previousValue, currentValue) => previousValue + (parseFloat(currentValue.cantidad) * parseFloat(currentValue.precio)),
                                                             0
                                                         )
                                                     }

@@ -115,6 +115,11 @@ export const Productos = () => {
                                         >
                                             Costo
                                         </th>
+                                        <th
+                                            className="px-6 align-middle border border-solid py-3 text-xs border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                                        >
+                                            Precio
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -138,6 +143,9 @@ export const Productos = () => {
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                     {data.meta.costo.toString()}
+                                                </td>
+                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                    {data.meta.precio.toString()}
                                                 </td>
                                                 <td className="flex border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                     <div className="w-1/2" >
