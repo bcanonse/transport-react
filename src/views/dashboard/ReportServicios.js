@@ -1,15 +1,14 @@
 import React from "react";
 
 // components
-
-
-
 import CardStats from "components/Cards/CardStats.js";
-import { getCotizacionesReport } from "firebase/reports";
+import { getServiciosReport } from "firebase/reports";
 import { TableCotizacionVendedor } from "./quotes/TableCotizacionVendedor";
 import { TableCotizacionNegocio } from "./quotes/TableCotizacionNegocio";
+import { TableServicioCliente } from "./services/TableServicioCliente";
+import { TableServicioVendedor } from "./services/TableServicioVendedor";
 
-export const ReportCotizaciones = () => {
+export const ReportServicios = () => {
 
     const [loading, setLoading] = React.useState(true);
     const [totalUno, setTotalUno] = React.useState(0);
@@ -19,9 +18,9 @@ export const ReportCotizaciones = () => {
     const [totalCinco, setTotalCinco] = React.useState(0);
     const [totalSeis, setTotalSeis] = React.useState(0);
 
-    const [cotizaciones, setCotizaciones] = React.useState([]);
+    const [servicios, setServicios] = React.useState([]);
 
-    const getCotizaciones = async () => {
+    const getServicios = async () => {
         let totalUno = 0;
         let totalDos = 0;
         let totalTres = 0;
@@ -29,8 +28,8 @@ export const ReportCotizaciones = () => {
         let totalCinco = 0;
         let totalSeis = 0;
         setLoading(true);
-        const response = await getCotizacionesReport();
-        setCotizaciones(response);
+        const response = await getServiciosReport();
+        setServicios(response);
 
         for (const data of response) {
             switch (data.id_negocio) {
@@ -67,7 +66,7 @@ export const ReportCotizaciones = () => {
 
 
     React.useEffect(() => {
-        getCotizaciones();
+        getServicios();
     }, [])
 
     return (
@@ -80,8 +79,8 @@ export const ReportCotizaciones = () => {
             >
                 <div className="px-4 md:px-10 mx-auto w-full mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-blueGray-500 text-center mb-4">Reporte de cotizaciones</h1>
                         {/* Card stats */}
+                        <h1 className="text-3xl font-bold text-blueGray-500 text-center mb-4">Reporte de servicios</h1>
                         <div className="flex flex-wrap">
                             <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                                 <CardStats
@@ -170,8 +169,8 @@ export const ReportCotizaciones = () => {
                         </div>
                     </div>
                 </div>
-                <TableCotizacionNegocio cotizaciones={cotizaciones} />
-                <TableCotizacionVendedor cotizaciones={cotizaciones} />
+                <TableServicioCliente servicios={servicios} />
+                <TableServicioVendedor servicios={servicios} />
             </div>
         </>
     );

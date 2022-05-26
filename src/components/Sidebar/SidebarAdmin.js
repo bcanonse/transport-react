@@ -72,7 +72,7 @@ export const SidebarAdmin = () => {
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="reports-quotes"
+                  to="/dashboard/reports-quotes"
                 >
                   Cotizaciones
                 </Link>
@@ -85,7 +85,7 @@ export const SidebarAdmin = () => {
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/reports-services"
+                  to="/dashboard/reports-services"
                 >
                   Servicios
                 </Link>

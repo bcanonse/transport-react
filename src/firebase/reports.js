@@ -59,6 +59,15 @@ export const getCotizacionesReport = async () => {
     return values;
 }
 
+export const getServiciosReport = async () => {
+    const values = [];
+    const response = await getCollections("servicios");
+    response.docs.forEach((value) => {
+        values.push(value.data());
+    })
+    return values;
+}
+
 export const filterCotizacionesFromDate = async () => {
     const date = new Date()
     const start = new Date(date.getFullYear(), date.getMonth(), 1);
