@@ -9,26 +9,27 @@ import FooterApp from "components/Footers/FooterApp";
 // user context
 import { AuthProvider } from "context/AuthProvider";
 import ProtectedRoutes from "views/auth/ProtectedRoutes";
-import SideBarApp from 'components/Sidebar/SideBarApp';
+import { SidebarAdmin } from 'components/Sidebar/SidebarAdmin';
+import HeaderStats from 'components/Headers/HeaderStats';
+import { Route } from 'react-router-dom/cjs/react-router-dom.min';
+import Dashboard from 'views/admin/Dashboard';
+import { ReportCotizaciones } from 'views/dashboard/ReportCotizaciones';
 
 
 
 export default function AppDashboard() {
-    return(
+    return (
         <>
             <AuthProvider>
                 <ProtectedRoutes>
-                    <SideBarApp />
+                    <SidebarAdmin />
                     <div className="relative md:ml-64 bg-blueGray-100">
                         <AdminNavbar />
-                        <div className="relative bg-lightBlue-600 md:pt-32 pb-32 pt-12">
-                            <div className="px-4 md:px-10 mx-auto w-full">
-                                <div>
-                                </div>
-                            </div>
-                        </div>
+                        <HeaderStats />
                         <div className="px-4 md:px-10 mx-auto w-full -m-24">
                             <Switch>
+                                <Route path='/dashboard' exact component={Dashboard} />
+                                <Route path='/dashboard/reports-quotes' exact component={ReportCotizaciones} />
                                 <Redirect from="/dashboard" to="/dashboard/" />
                             </Switch>
                             <FooterApp />

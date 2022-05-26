@@ -10,17 +10,24 @@ export default function CardStats({
   statDescripiron,
   statIconName,
   statIconColor,
+  background,
+  colorTitle,
 }) {
   return (
     <>
-      <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+      <div className={
+        "relative flex flex-col min-w-0 break-words rounded mb-6 xl:mb-0 shadow-lg " +
+        (background)
+      }>
         <div className="flex-auto p-4">
           <div className="flex flex-wrap">
             <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
               <h5 className="text-blueGray-400 uppercase font-bold text-xs">
                 {statSubtitle}
               </h5>
-              <span className="font-semibold text-xl text-blueGray-700">
+              <span className={
+                "font-semibold text-xl " + (colorTitle)
+              }>
                 {statTitle}
               </span>
             </div>
@@ -36,18 +43,6 @@ export default function CardStats({
             </div>
           </div>
           <p className="text-sm text-blueGray-400 mt-4">
-            <span className={statPercentColor + " mr-2"}>
-              <i
-                className={
-                  statArrow === "up"
-                    ? "fas fa-arrow-up"
-                    : statArrow === "down"
-                    ? "fas fa-arrow-down"
-                    : ""
-                }
-              ></i>{" "}
-              {statPercent}%
-            </span>
             <span className="whitespace-nowrap">{statDescripiron}</span>
           </p>
         </div>
@@ -65,6 +60,8 @@ CardStats.defaultProps = {
   statDescripiron: "Since last month",
   statIconName: "far fa-chart-bar",
   statIconColor: "bg-red-500",
+  background: "bg-white",
+  colorTitle: "text-blueGray-700",
 };
 
 CardStats.propTypes = {
@@ -80,4 +77,6 @@ CardStats.propTypes = {
   // can be any of the background color utilities
   // from tailwindcss
   statIconColor: PropTypes.string,
+  background: PropTypes.string,
+  colorTitle: PropTypes.string,
 };
