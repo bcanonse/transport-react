@@ -13,6 +13,8 @@ import { InputNumberField } from "components/Inputs/InputNumberField";
 import { useAuth } from "context/AuthProvider";
 import { Timestamp } from "firebase/firestore";
 
+import { filterInventario, updateAgProductoInventario, updateNuevoProdInv } from "firebase/inventarios";
+
 const prioridad = ["Baja", "Importante"];
 
 export const CardRegisterPedidoInterno = () => {
@@ -41,7 +43,13 @@ export const CardRegisterPedidoInterno = () => {
         nombre: 'Negocio'
     }])
 
+    const [sucursales, setSucursal] = React.useState([{
+        id: '',
+        nombre: 'Sucursal'
+    }]);
+
     const [selectedNegocio, setSelectNegocio] = React.useState(negocios[0]);
+    const [selectedSucursal, setSelectSucursal] = React.useState(sucursales[0]);
     const [selectedPrioridad, setSelectPrioridad] = React.useState(prioridad[0]);
 
     const [detalle, setDetalle] = React.useState([]);
@@ -53,9 +61,14 @@ export const CardRegisterPedidoInterno = () => {
         precio: 0,
     }]);
     const [selectedProducto, setSelectProducto] = React.useState(productos[0]);
+    const [existenciaValida, setValidaExistencia] = React.useState(false);
 
     const handleChangeNegocio = (data) => {
         setSelectNegocio(data)
+    }
+
+    const handleChangeSucursal = (data) => {
+        setSelectSucursal(data)
     }
 
     const handleChangeTServicio = (data) => {
@@ -74,7 +87,9 @@ export const CardRegisterPedidoInterno = () => {
 
     const handleAddItem = (event) => {
         event.preventDefault();
-        getListProductos();
+        if (selectedSucursal.id) {
+            getListProductos();
+        }
     }
 
     const getNegocios = async () => {
@@ -89,11 +104,39 @@ export const CardRegisterPedidoInterno = () => {
 
     const getListProductos = async () => {
         const values = [];
-        const response = await filterDoc(negocio.codigo, "productos", "id_negocio");
+        const tProductos = [];
+        const response = await filterDoc(selectedSucursal.id, "inventarios", "id_sucursal");
         response.forEach((value) => {
             values.push(value.data())
         })
-        setProductos(values);
+
+        for (const value of values) {
+            const productos = await filterDoc(value.id_producto, "productos", "id");
+            productos.forEach((element) => {
+                const { id, nombre, precio } = element.data();
+                const data = {
+                    id,
+                    cantidad: value.cantidad,
+                    existencia: value.cantidad,
+                    nombre,
+                    precio
+                }
+
+                tProductos.push(data);
+            })
+        }
+        setProductos(tProductos);
+        setErrorOrOk("")
+    };
+
+
+    const getListSucursales = async () => {
+        const values = [];
+        const response = await filterDoc(negocio.codigo, "sucursales", "id_negocio");
+        response.forEach((value) => {
+            values.push(value.data())
+        })
+        setSucursal(values);
         setErrorOrOk("")
     };
 
@@ -106,6 +149,25 @@ export const CardRegisterPedidoInterno = () => {
         pedido.usuario = user.email.substring(0, user.email.indexOf('@'));
         try {
             const response = await createDoc("pedidos_internos", pedido);
+            for (const value of pedido.detalle) {
+                const data = {
+                    id_sucursal: selectedSucursal.id,
+                    id_producto: value.id,
+                    costo: value.costo,
+                    cantidad: value.cantidad
+                }
+                const resInv =
+                    await filterInventario(value.id, selectedSucursal.id);
+
+                if (resInv.docs[0]) {
+                    const dataRes = resInv.docs[0].data();
+                    dataRes.cantidad = (parseFloat(dataRes.cantidad) - parseFloat(value.cantidad)).toString();
+                    await updateAgProductoInventario(resInv.docs[0].id, dataRes);
+                } else {
+                    const idResponse = await createDoc("inventarios", data);
+                    await updateNuevoProdInv(idResponse.id, data);
+                }
+            }
             if (response && response.id.length > 0) {
                 setPedido(STATE_INITIAL);
                 setErrorOrOk("Pedido interno creado");
@@ -125,6 +187,31 @@ export const CardRegisterPedidoInterno = () => {
                         <Listbox.Button>{selectedNegocio.nombre}</Listbox.Button>
                         <Listbox.Options>
                             {negocios.map((option, index) => {
+                                return (
+                                    <Listbox.Option
+                                        key={index}
+                                        value={option}
+                                        className="w-full"
+                                    >
+                                        {option.nombre}
+                                    </Listbox.Option>
+                                );
+                            })}
+                        </Listbox.Options>
+                    </Listbox>
+                </div>
+            )
+        }
+    }
+
+    function getSucursales() {
+        if (sucursales.length > 0) {
+            return (
+                <div className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                    <Listbox value={selectedSucursal} onChange={handleChangeSucursal}>
+                        <Listbox.Button>{selectedSucursal.nombre}</Listbox.Button>
+                        <Listbox.Options>
+                            {sucursales.map((option, index) => {
                                 return (
                                     <Listbox.Option
                                         key={index}
@@ -168,14 +255,15 @@ export const CardRegisterPedidoInterno = () => {
 
     const handleChangeProducto = (data) => {
         setSelectProducto(data);
-        const { id, nombre: producto, precio } = data;
+        const { id, nombre: producto, existencia, cantidad, precio } = data;
 
         setDetalle([
             ...detalle,
             {
                 id,
                 producto,
-                cantidad: 0.00,
+                existencia,
+                cantidad: cantidad,
                 precio: precio,
             }
         ])
@@ -217,6 +305,17 @@ export const CardRegisterPedidoInterno = () => {
 
     const handleChangeItems = (index, data, event) => {
         let items = [...detalle]
+        if (event.target.name === "cantidad") {
+            const existencia = parseFloat(data.existencia);
+            const cantidad = parseFloat(event.target.value);
+            if (cantidad > existencia) {
+                setErrorOrOk(`El producto ${data.producto} tiene cantidades mayores a la existencia`);
+                setValidaExistencia(true);
+            } else {
+                setErrorOrOk('');
+                setValidaExistencia(false);
+            }
+        }
         items[index][event.target.name] = event.target.value
         setDetalle(items)
 
@@ -224,6 +323,7 @@ export const CardRegisterPedidoInterno = () => {
 
     React.useEffect(() => {
         getNegocios()
+        getListSucursales();
     }, [])
 
 
@@ -299,11 +399,24 @@ export const CardRegisterPedidoInterno = () => {
                                     />
                                 </div>
                             </div>
+                            <div className="w-full lg:w-6/12 px-4">
+                                <div className="relative w-full mb-3">
+                                    <label
+                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                                        htmlFor="descripcion"
+                                    >
+                                        Sucursal
+                                    </label>
+                                    {getSucursales()}
+                                </div>
+                            </div>
                         </div>
                         <hr className="mt-6 border-b-1 border-blueGray-300" />
 
                         <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                             Agregar productos
+                            <br />
+                            Debe de seleccionar la sucursal para ver los productos con existencia.
                         </h6>
 
                         <div
@@ -399,7 +512,7 @@ export const CardRegisterPedidoInterno = () => {
                         </div>
 
                         <button
-                            disabled={!pedido.fecha || !selectedNegocio.codigo || !selectedPrioridad || !detalle.length > 0}
+                            disabled={!pedido.fecha || !selectedNegocio.codigo || !selectedPrioridad || !detalle.length > 0 || !existenciaValida}
                             className="bg-lightBlue-500 mt-6 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                         >
                             Agregar

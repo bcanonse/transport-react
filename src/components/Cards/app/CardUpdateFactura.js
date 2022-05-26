@@ -9,9 +9,8 @@ import { InputNumberField } from "components/Inputs/InputNumberField";
 
 import { filterInventario, updateAgProductoInventario, updateNuevoProdInv } from "firebase/inventarios";
 
-const prioridad = ["Baja", "Importante"];
 
-export const CardUpdatePedidoInterno = () => {
+export const CardUpdateFactura = () => {
     let negocio = localStorage.getItem("negocio");
     negocio = JSON.parse(negocio);
 
@@ -20,12 +19,11 @@ export const CardUpdatePedidoInterno = () => {
     const dataArg = location.state;
 
     const [errorOrOk, setErrorOrOk] = React.useState("");
-    const [pedido, setPedido] = React.useState(dataArg.meta);
-
-    const [negocios, setNegocios] = React.useState([{
-        codigo: '',
-        nombre: 'Negocio'
-    }]);
+    const [factura, setFactura] = React.useState(dataArg.meta);
+    const [clientes, setClientes] = React.useState([{
+        id: '',
+        nombre: 'Cliente'
+    }])
 
     const [sucursales, setSucursal] = React.useState([{
         id: '',
@@ -41,9 +39,8 @@ export const CardUpdatePedidoInterno = () => {
 
     const [selectedProducto, setSelectProducto] = React.useState(productos[0]);
 
-    const [selectedNegocio, setSelectNegocio] = React.useState(negocios[0]);
     const [selectedSucursal, setSelectSucursal] = React.useState(sucursales[0]);
-    const [selectedPrioridad, setSelectPrioridad] = React.useState(dataArg.meta.prioridad);
+    const [selectedCliente, setSelectCliente] = React.useState(clientes[0]);
 
     const [detalle, setDetalle] = React.useState(dataArg.meta.detalle);
     const [existenciaValida, setValidaExistencia] = React.useState(false);
@@ -51,12 +48,11 @@ export const CardUpdatePedidoInterno = () => {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         setErrorOrOk("");
-        pedido.negocio_pide = selectedNegocio.codigo;
-        pedido.prioridad = selectedPrioridad;
-        pedido.detalle = detalle
+        factura.id_cliente = selectedCliente.id;
+        factura.detalle = detalle
         try {
-            await updateCustomDoc("pedidos_internos", dataArg.id, pedido);
-            for (const value of pedido.detalle) {
+            await updateCustomDoc("pedidos_internos", dataArg.id, factura);
+            for (const value of factura.detalle) {
                 const data = {
                     id_sucursal: selectedSucursal.id,
                     id_producto: value.id,
@@ -75,7 +71,7 @@ export const CardUpdatePedidoInterno = () => {
                     await updateNuevoProdInv(idResponse.id, data);
                 }
             }
-            setPedido(dataArg.meta);
+            setFactura(dataArg.meta);
             setErrorOrOk("Pedido interno creado");
             navigate.push('/app/internal-orders');
         } catch (error) {
@@ -84,26 +80,27 @@ export const CardUpdatePedidoInterno = () => {
     }
 
     const handleChange = (evt) => {
-        setPedido({
-            ...pedido,
+        setFactura({
+            ...factura,
             [evt.target.name]: evt.target.value
         })
     }
 
-    const getNegocios = async () => {
+    const getClientes = async () => {
         const values = [];
-        const response = await filterNotEqualsDoc(negocio.codigo, "negocios", "codigo");
+        const response =
+            await filterDoc(negocio.codigo, "clientes", "id_negocio");
         response.forEach((value) => {
-            const { codigo, nombre } = value.data();
-            if (codigo === dataArg.meta.negocio_pide) {
-                setSelectNegocio({
-                    codigo,
+            const { id, nombre } = value.data();
+            if (id === dataArg.meta.id_cliente) {
+                setSelectCliente({
+                    id,
                     nombre
                 });
             }
             values.push(value.data())
         })
-        setNegocios(values);
+        setClientes(values);
         setErrorOrOk("")
     };
 
@@ -185,16 +182,12 @@ export const CardUpdatePedidoInterno = () => {
 
     }
 
-    const handleChangeNegocio = (data) => {
-        setSelectNegocio(data)
+    const handleChangeCliente = (data) => {
+        setSelectCliente(data)
     }
 
     const handleChangeSucursal = (data) => {
         setSelectSucursal(data)
-    }
-
-    const handleChangeTServicio = (data) => {
-        setSelectPrioridad(data)
     }
 
     const handleClickDelete = (data, evt) => {
@@ -206,55 +199,7 @@ export const CardUpdatePedidoInterno = () => {
         }
     }
 
-    function getListNegocios() {
-        if (negocios.length > 0) {
-            return (
-                <div className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                    <Listbox value={selectedNegocio} onChange={handleChangeNegocio}>
-                        <Listbox.Button>{selectedNegocio.nombre}</Listbox.Button>
-                        <Listbox.Options>
-                            {negocios.map((option, index) => {
-                                return (
-                                    <Listbox.Option
-                                        key={index}
-                                        value={option}
-                                        className="w-full"
-                                    >
-                                        {option.nombre}
-                                    </Listbox.Option>
-                                );
-                            })}
-                        </Listbox.Options>
-                    </Listbox>
-                </div>
-            )
-        }
-    }
-
-
-    function getPrioridades() {
-        return (
-            <div className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                <Listbox value={selectedPrioridad} onChange={handleChangeTServicio}>
-                    <Listbox.Button>{selectedPrioridad}</Listbox.Button>
-                    <Listbox.Options>
-                        {prioridad.map((option, index) => {
-                            return (
-                                <Listbox.Option
-                                    key={index}
-                                    value={option}
-                                    className="w-full"
-                                >
-                                    {option}
-                                </Listbox.Option>
-                            );
-                        })}
-                    </Listbox.Options>
-                </Listbox>
-            </div>
-        )
-    }
-
+    
     function getSucursales() {
         if (sucursales.length > 0) {
             return (
@@ -305,8 +250,33 @@ export const CardUpdatePedidoInterno = () => {
         }
     }
 
+    function getListClientes() {
+        if (clientes.length > 0) {
+            return (
+                <div className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                    <Listbox value={selectedCliente} onChange={handleChangeCliente}>
+                        <Listbox.Button>{selectedCliente.nombre}</Listbox.Button>
+                        <Listbox.Options>
+                            {clientes.map((option, index) => {
+                                return (
+                                    <Listbox.Option
+                                        key={index}
+                                        value={option}
+                                        className="w-full"
+                                    >
+                                        {option.nombre}
+                                    </Listbox.Option>
+                                );
+                            })}
+                        </Listbox.Options>
+                    </Listbox>
+                </div>
+            )
+        }
+    }
+
     React.useEffect(() => {
-        getNegocios();
+        getClientes();
         getListSucursales();
     }, [])
 
@@ -316,13 +286,13 @@ export const CardUpdatePedidoInterno = () => {
                 <div className="rounded-t bg-white mb-0 px-6 py-6">
                     {errorOrOk && <AlertPopper color="red" message={errorOrOk} />}
                     <div className="text-center flex justify-between">
-                        <h6 className="text-blueGray-700 text-xl font-bold">Pedidos internos</h6>
+                        <h6 className="text-blueGray-700 text-xl font-bold">Facturas</h6>
                     </div>
                 </div>
                 <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                     <form onSubmit={handleSubmit}>
                         <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                            Informaci&oacute;n de pedidos internos
+                            Informaci&oacute;n de factura
                         </h6>
                         <div className="flex flex-wrap">
                             <div className="w-full lg:w-6/12 px-4">
@@ -331,9 +301,9 @@ export const CardUpdatePedidoInterno = () => {
                                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                                         htmlFor="grid-password"
                                     >
-                                        Negocio que solicita
+                                        Cliente
                                     </label>
-                                    {getListNegocios()}
+                                    {getListClientes()}
                                 </div>
                             </div>
                             <div className="w-full lg:w-6/12 px-4">
@@ -346,22 +316,11 @@ export const CardUpdatePedidoInterno = () => {
                                     </label>
                                     <input
                                         name="fecha"
-                                        value={pedido.fecha}
+                                        value={factura.fecha}
                                         type="date"
                                         onChange={handleChange}
                                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                     />
-                                </div>
-                            </div>
-                            <div className="w-full lg:w-6/12 px-4">
-                                <div className="relative w-full mb-3">
-                                    <label
-                                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                        htmlFor="grid-password"
-                                    >
-                                        Prioridad
-                                    </label>
-                                    {getPrioridades()}
                                 </div>
                             </div>
                             <div className="w-full lg:w-6/12 px-4">
@@ -376,7 +335,7 @@ export const CardUpdatePedidoInterno = () => {
                                         name="descripcion"
                                         rows={4}
                                         cols={80}
-                                        value={pedido.descripcion}
+                                        value={factura.descripcion}
                                         onChange={handleChange}
                                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                     />
@@ -398,6 +357,8 @@ export const CardUpdatePedidoInterno = () => {
 
                         <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                             Agregar productos
+                            <br />
+                            Debe de seleccionar la sucursal para ver los productos con existencia.
                         </h6>
 
                         <div
@@ -493,7 +454,7 @@ export const CardUpdatePedidoInterno = () => {
                         </div>
 
                         <button
-                            disabled={!pedido.fecha || !selectedNegocio.codigo || !selectedPrioridad || !detalle.length > 0 || !existenciaValida}
+                            disabled={!factura.fecha || !selectedCliente.id || !detalle.length > 0 || existenciaValida}
                             className="bg-lightBlue-500 mt-6 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                         >
                             Actualizar

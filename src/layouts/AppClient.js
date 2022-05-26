@@ -35,6 +35,9 @@ import { Inventarios } from 'views/app/Inventarios';
 import { IngresoInventario } from 'views/app/IngresoInventario';
 import { CardRegisterIngresoInv } from 'components/Cards/app/CardRegisterIngresoInv';
 import { CardUpdateIngresoInv } from 'components/Cards/app/CardUpdateIngresoInv';
+import { Facturas } from 'views/app/Facturas';
+import { CardRegisterFactura } from 'components/Cards/app/CardRegisterFactura';
+import { CardUpdateFactura } from 'components/Cards/app/CardUpdateFactura';
 
 export default function AppClient() {
     let negocio = localStorage.getItem("negocio");
@@ -81,6 +84,9 @@ export default function AppClient() {
                                 <Route path="/app/inventory-income" exact component={IngresoInventario} />
                                 <Route path="/app/inventory-income/create" exact component={CardRegisterIngresoInv} />
                                 <Route path="/app/inventory-income/modify" exact component={CardUpdateIngresoInv} />
+                                <Route path="/app/invoices" exact component={Facturas} />
+                                <Route path="/app/invoices/create" exact component={CardRegisterFactura} />
+                                <Route path="/app/invoices/modify" exact component={CardUpdateFactura} />
                                 <Redirect from="/app" to="/app/dashboard" />
                             </Switch>
                         </div>
