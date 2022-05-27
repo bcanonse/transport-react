@@ -512,7 +512,7 @@ export const CardRegisterPedidoInterno = () => {
                         </div>
 
                         <button
-                            disabled={!pedido.fecha || !selectedNegocio.codigo || !selectedPrioridad || !detalle.length > 0 || !existenciaValida}
+                            disabled={!pedido.fecha || !selectedNegocio.codigo || !selectedPrioridad || !detalle.length > 0 || existenciaValida}
                             className="bg-lightBlue-500 mt-6 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                         >
                             Agregar

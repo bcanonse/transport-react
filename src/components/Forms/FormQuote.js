@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { v4 as uuid } from 'uuid';
 import Alert from "../Alerts/Alert";
-import { useHistory } from "react-router-dom";
 import { createDoc } from "../../firebase/firebase";
 import { Timestamp } from "firebase/firestore";
+import AlertPopper from "components/Alerts/AlertPopper";
 
 
 const FormQuote = ({ company }) => {
-    const history = useHistory();
     const INITIAL_STATE = {
         id: uuid(),
         fecha: Timestamp.fromDate(new Date()),
@@ -28,8 +27,9 @@ const FormQuote = ({ company }) => {
             if (!response || !response?.id) setErrorOrResponse("Error al crear cotizacion")
             if (response && response?.id.length > 0) {
                 setValues(INITIAL_STATE)
-                setErrorOrResponse("Solicitud recibida, se dará seguimiento de nuestro parte");
-                history.push('/');
+                setErrorOrResponse(
+                    `Solicitud recibida exitosamente, este es el token para ver el estado de su solicitud ${response.id}`
+                );
             }
         } catch (error) {
             setErrorOrResponse("Error al enviar solicitud, intente más tarde");
@@ -47,7 +47,7 @@ const FormQuote = ({ company }) => {
     return (
         <>
             <form onSubmit={handleSubmit} className="flex-auto p-5 lg:p-10">
-                {errorOrResponse && <Alert message={errorOrResponse} />}
+                {errorOrResponse && <AlertPopper color="red" message={errorOrResponse} />}
                 <h4 className="text-2xl font-semibold">
                     Necesitas una cotización de nuestro servicio
                 </h4>

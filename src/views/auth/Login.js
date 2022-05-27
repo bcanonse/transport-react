@@ -59,7 +59,20 @@ const Login = () => {
         <>
             <main>
                 <section className="relative pb-20 w-full h-full py-40 min-h-screen bg-blueGray-800">
-                    <div className="container mx-auto px-4 h-full">
+
+                    <div className="container text-center mx-auto px-4 h-full">
+                        <button
+                            onClick={(event) => {
+                                event.preventDefault();
+                                navigate.push('/');
+                            }}
+                            className="bg-blueGray-200 mt-4 mb-4 text-blueGray-500 font-bold text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                        >
+                            <span className='text-blueGray-500 mr-2'>
+                                <i className="fas fa-arrow-left"></i>
+                            </span>
+                            Home site
+                        </button>
                         <div className="flex content-center items-center justify-center h-full">
                             <div className="w-full lg:w-4/12 px-4">
                                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">

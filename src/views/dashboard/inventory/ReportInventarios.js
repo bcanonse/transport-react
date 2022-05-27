@@ -2,12 +2,10 @@ import React from "react";
 
 // components
 import CardStats from "components/Cards/CardStats.js";
-import { getServiciosReport } from "firebase/reports";
-import { TableServicioCliente } from "./services/TableServicioCliente";
-import { TableServicioVendedor } from "./services/TableServicioVendedor";
+import { getInventariosReport } from "firebase/reports";
 
-export const ReportServicios = () => {
 
+export const ReportInventarios = () => {
     const [loading, setLoading] = React.useState(true);
     const [totalUno, setTotalUno] = React.useState(0);
     const [totalDos, setTotalDos] = React.useState(0);
@@ -16,9 +14,9 @@ export const ReportServicios = () => {
     const [totalCinco, setTotalCinco] = React.useState(0);
     const [totalSeis, setTotalSeis] = React.useState(0);
 
-    const [servicios, setServicios] = React.useState([]);
+    const [inventarios, setInventarios] = React.useState([]);
 
-    const getServicios = async () => {
+    const getInventarios = async () => {
         let totalUno = 0;
         let totalDos = 0;
         let totalTres = 0;
@@ -26,8 +24,8 @@ export const ReportServicios = () => {
         let totalCinco = 0;
         let totalSeis = 0;
         setLoading(true);
-        const response = await getServiciosReport();
-        setServicios(response);
+        const response = await getInventariosReport();
+        setInventarios(response);
 
         for (const data of response) {
             switch (data.id_negocio) {
@@ -64,7 +62,7 @@ export const ReportServicios = () => {
 
 
     React.useEffect(() => {
-        getServicios();
+        getInventarios();
     }, [])
 
     return (
@@ -78,7 +76,7 @@ export const ReportServicios = () => {
                 <div className="px-4 md:px-10 mx-auto w-full mb-8">
                     <div>
                         {/* Card stats */}
-                        <h1 className="text-3xl font-bold text-blueGray-500 text-center mb-4">Reporte de servicios</h1>
+                        <h1 className="text-3xl font-bold text-blueGray-500 text-center mb-4">Reporte de inventarios</h1>
                         <div className="flex flex-wrap">
                             <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                                 <CardStats
@@ -167,8 +165,8 @@ export const ReportServicios = () => {
                         </div>
                     </div>
                 </div>
-                <TableServicioCliente servicios={servicios} />
-                <TableServicioVendedor servicios={servicios} />
+                {/* <TableServicioCliente servicios={servicios} />
+                <TableServicioVendedor servicios={servicios} /> */}
             </div>
         </>
     );

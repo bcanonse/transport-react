@@ -111,7 +111,7 @@ export const SidebarAdmin = () => {
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/reports-external-orders"
+                  to="/dashboard/reports-external-orders"
                 >
                   Pedidos externos
                 </Link>
@@ -146,25 +146,9 @@ export const SidebarAdmin = () => {
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/app/inventory"
+                  to="/dashboard/reports-inventory"
                 >
                   Inventarios por sucursal
-                </Link>
-              </li>
-            </ul>
-
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none">
-              <li className="items-center">
-                <Link
-                  className={
-                    "text-xs uppercase py-3 font-bold block " +
-                    (window.location.href.indexOf("/admin/dashboard") !== -1
-                      ? "text-lightBlue-500 hover:text-lightBlue-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
-                  }
-                  to="/app/inventory-income"
-                >
-                  Ingreso a inventarios
                 </Link>
               </li>
             </ul>

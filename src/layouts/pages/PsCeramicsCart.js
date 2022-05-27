@@ -46,12 +46,14 @@ export const PsCeramicsCart = () => {
             if (response && response.id.length > 0) {
                 setPedido(STATE_INITIAL);
                 setDetalle([]);
-                setErrorOrOk("Pedido interno creado");
+                setErrorOrOk(
+                    `Pedido realizado exitosamente este es el token para ver el estado de su pedido: ${response.id}`
+                );
                 sessionStorage.removeItem("detalle");
             }
 
         } catch (error) {
-            setErrorOrOk("Error al crear pedido interno");
+            setErrorOrOk("Error al crear pedido externo");
         }
     }
 
@@ -160,7 +162,7 @@ export const PsCeramicsCart = () => {
                                                 className="block text-white text-xs font-bold mb-2"
                                                 htmlFor="descripcion"
                                             >
-                                                Descripci&oacute;n
+                                                Direcci&oacute;n (Coloque la direcci&oacute;n de entrega, el cobro se realizar&aacute; contra entrega)
                                             </label>
                                             <textarea
                                                 name="descripcion"

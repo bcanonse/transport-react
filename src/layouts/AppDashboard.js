@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Redirect } from "react-router-dom";
+import { Switch, Redirect, Route } from "react-router-dom";
 
 
 // components
@@ -11,10 +11,11 @@ import { AuthProvider } from "context/AuthProvider";
 import ProtectedRoutes from "views/auth/ProtectedRoutes";
 import { SidebarAdmin } from 'components/Sidebar/SidebarAdmin';
 import HeaderStats from 'components/Headers/HeaderStats';
-import { Route } from 'react-router-dom/cjs/react-router-dom.min';
 import Dashboard from 'views/admin/Dashboard';
 import { ReportCotizaciones } from 'views/dashboard/ReportCotizaciones';
 import { ReportServicios } from 'views/dashboard/ReportServicios';
+import { ReportInventarios } from 'views/dashboard/inventory/ReportInventarios';
+import { ReportPedidosExternos } from 'views/dashboard/orders/ReportPedidosExternos';
 
 
 
@@ -32,6 +33,8 @@ export default function AppDashboard() {
                                 <Route path='/dashboard' exact component={Dashboard} />
                                 <Route path='/dashboard/reports-quotes' exact component={ReportCotizaciones} />
                                 <Route path='/dashboard/reports-services' exact component={ReportServicios} />
+                                <Route path='/dashboard/reports-inventory' exact component={ReportInventarios} />
+                                <Route path='/dashboard/reports-external-orders' exact component={ReportPedidosExternos} />
                                 <Redirect from="/dashboard" to="/dashboard/" />
                             </Switch>
                             <FooterApp />

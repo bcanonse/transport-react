@@ -82,3 +82,37 @@ export const filterCotizacionesFromDate = async () => {
     const querySnapshot = await getDocs(fromQuery);
     return querySnapshot.docs;
 }
+
+export const getInventariosReport = async () => {
+    const values = [];
+    const response = await getCollections("inventarios");
+    response.docs.forEach((value) => {
+        values.push(value.data());
+    })
+    return values;
+}
+
+export const getPedidosExternosReport = async () => {
+    const values = [];
+    const response = await getCollections("pedidos_externos");
+    response.docs.forEach((value) => {
+        values.push(value.data());
+    })
+    return values;
+}
+
+
+export const filterPedExternosFromDate = async () => {
+    const date = new Date()
+    const start = new Date(date.getFullYear(), date.getMonth(), 1);
+    const end = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    const fromQuery = query(collection(db, "pedidos_externos"), where(
+        "fecha", ">=", start
+    ), where(
+        "fecha", "<=", end
+    ));
+
+    const querySnapshot = await getDocs(fromQuery);
+    return querySnapshot.docs;
+}
