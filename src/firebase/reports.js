@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db, getCollections } from "./firebase";
+import { db, filterDoc, getCollections } from "./firebase";
 
 
 export const getFacturas = async () => {
@@ -115,4 +115,37 @@ export const filterPedExternosFromDate = async () => {
 
     const querySnapshot = await getDocs(fromQuery);
     return querySnapshot.docs;
+}
+
+export const getPedInternosReport = async () => {
+    const values = [];
+    const response = await getCollections("pedidos_internos");
+    response.docs.forEach((value) => {
+        values.push(value.data());
+    })
+    return values;
+}
+
+export const getFacturasReport = async () => {
+    const values = [];
+    const response = await getCollections("facturas");
+    response.docs.forEach((value) => {
+        values.push(value.data());
+    })
+    return values;
+}
+
+export const getFacturasFilterReport = async () => {
+    const values = [];
+    const facturas = await getCollections("facturas");
+
+    for (const value of facturas.docs) {
+        const factura = value.data();
+        const clientes = await filterDoc(factura.id_cliente, "clientes", "id");
+        clientes.forEach((cliente) => {
+            factura.cliente = cliente.data();
+        });
+        values.push(factura);
+    }
+    return values;
 }

@@ -16,6 +16,8 @@ import { ReportCotizaciones } from 'views/dashboard/ReportCotizaciones';
 import { ReportServicios } from 'views/dashboard/ReportServicios';
 import { ReportInventarios } from 'views/dashboard/inventory/ReportInventarios';
 import { ReportPedidosExternos } from 'views/dashboard/orders/ReportPedidosExternos';
+import { ReportPedidosInternos } from 'views/dashboard/orders/ReportPedidosInternos';
+import { ReportFacturas } from 'views/dashboard/invoices/ReportFacturas';
 
 
 
@@ -35,6 +37,8 @@ export default function AppDashboard() {
                                 <Route path='/dashboard/reports-services' exact component={ReportServicios} />
                                 <Route path='/dashboard/reports-inventory' exact component={ReportInventarios} />
                                 <Route path='/dashboard/reports-external-orders' exact component={ReportPedidosExternos} />
+                                <Route path='/dashboard/reports-internal-orders' exact component={ReportPedidosInternos} />
+                                <Route path='/dashboard/reports-invoices' exact component={ReportFacturas} />
                                 <Redirect from="/dashboard" to="/dashboard/" />
                             </Switch>
                             <FooterApp />
