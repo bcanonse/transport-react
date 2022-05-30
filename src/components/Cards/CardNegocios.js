@@ -2,19 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-const CardNegocios = ({ color, title, list, max }) => {
+const CardNegocios = ({ color, title, list, max, handleClick }) => {
 
     const navigate = useHistory();
 
     const handleClickNavigate = () => {
         navigate.push({
-            pathname: 'negocios/create',
+            pathname: '/admin/negocios/create',
             state: { maxCodigo: max }
         });
-    }
-
-
-    const handleClickItem = (data, evt) => {
     }
 
     return (
@@ -96,29 +92,33 @@ const CardNegocios = ({ color, title, list, max }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {list.map((data, index) => (
-                                <>
+                            {list.map((data, index) => {
+                                return (
                                     <tr
-                                        className="cursor-pointer"
                                         key={index}
-                                        onClick={handleClickItem.bind(this, data)}
-
                                     >
                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                            {data.nombre}
+                                            {data.meta.nombre}
                                         </td>
                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                            {data.razonSocial}
+                                            {data.meta.razonSocial}
                                         </td>
                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                            {data.nit}
+                                            {data.meta.nit}
                                         </td>
                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                            {data.direccion}
+                                            {data.meta.direccion}
+                                        </td>
+                                        <td className="flex border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                            <div className="w-1/2 ml-2" >
+                                                <button onClick={handleClick.bind(this, data)} >
+                                                    <i className="fas fa-trash text-red-500"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
-                                </>
-                            ))}
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>

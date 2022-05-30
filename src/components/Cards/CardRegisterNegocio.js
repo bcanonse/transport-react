@@ -1,8 +1,8 @@
-import { createDoc } from "firebase/firebase";
 import React from "react";
 import AlertPopper from "components/Alerts/AlertPopper";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { createNegocio } from "services/negocio/negocioService";
 
 const STATE_INITIAL = {
     codigo: 0,
@@ -36,7 +36,7 @@ export default function CardRegisterNegocio() {
             negocio.codigo > 0
         ) {
             try {
-                const response = await createDoc("negocios", negocio);
+                const response = await createNegocio(negocio);
                 if (response && response.id.length > 0) {
                     setNegocio(STATE_INITIAL);
                     setErrorOrOk("Negocio creado");
