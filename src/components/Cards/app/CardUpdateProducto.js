@@ -7,6 +7,7 @@ import { updateCustomDoc, filterDoc } from "firebase/firebase";
 import { useHistory, useLocation } from "react-router-dom";
 import { InputNumberField } from "components/Inputs/InputNumberField";
 import { getImageUrl } from 'firebase/firebase';
+import { updateProducto } from 'services/productos/productoService';
 
 const listTipoProduct = ["Materia prima", "Producto terminado"];
 
@@ -38,7 +39,7 @@ export const CardUpdateProducto = () => {
         producto.tipoProducto = selectedTipoP;
         producto.proveedor = selectedProveedor.id;
         try {
-            await updateCustomDoc("productos", dataArg.id, producto);
+            await updateProducto(dataArg.id, producto);
             setProducto(dataArg.meta);
             setErrorOrOk("Producto actualizado");
             navigate.push('/app/products')
@@ -292,7 +293,7 @@ export const CardUpdateProducto = () => {
                         </div>
                         <hr className="mt-6 border-b-1 border-blueGray-300" />
                         <button
-                            disabled={!producto.nombre || !producto.costo || !producto.cantidad || !selectedTipoP || !producto.precio}
+                            disabled={!producto.nombre || !producto.sku || !selectedTipoP || !producto.precio}
                             className="bg-lightBlue-500 mt-6 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                         >
                             Actualizar

@@ -1,7 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { filterDoc, deleteCustomDoc } from "firebase/firebase";
+import { getProductosService } from "services/productos/productoService";
+import { deleteProducto } from "services/productos/productoService";
 
 export const Productos = () => {
     let negocio = localStorage.getItem("negocio");
@@ -10,16 +11,8 @@ export const Productos = () => {
     const [productos, setProductos] = React.useState([]);
 
     const getProductos = async () => {
-        const tProductos = [];
-        const response = await filterDoc(negocio.codigo, "productos", "id_negocio");
-        response.forEach(element => {
-            const data = {
-                id: element.id,
-                meta: element.data()
-            }
-            tProductos.push(data)
-        });
-        setProductos(tProductos);
+        const response = await getProductosService(negocio.codigo);
+        setProductos(response);
     };
 
     const navigate = useHistory();
@@ -47,7 +40,7 @@ export const Productos = () => {
     const handleClickDelete = async (data, evt) => {
         if (data.id) {
             try {
-                await deleteCustomDoc("productos", data.id);
+                await deleteProducto(data.id);
                 const newCot = productos.filter((value) => value.id !== data.id);
                 setProductos(newCot);
             } catch (error) {

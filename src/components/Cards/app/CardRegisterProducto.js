@@ -1,4 +1,3 @@
-import { createDoc } from "firebase/firebase";
 import React from "react";
 import AlertPopper from "components/Alerts/AlertPopper";
 import { useHistory } from "react-router-dom";
@@ -10,6 +9,7 @@ import { filterDoc, setFileImage } from "firebase/firebase";
 
 import { useAuth } from "context/AuthProvider";
 import { Timestamp } from "firebase/firestore";
+import { createProducto } from "services/productos/productoService";
 
 const listTipoProduct = ["Materia prima", "Producto terminado"];
 
@@ -68,7 +68,7 @@ export const CardRegisterProducto = () => {
                         producto.imagen = res.metadata.fullPath;
                         producto.usuario_id = user.uid;
                         producto.usuario = user.email.substring(0, user.email.indexOf('@'));
-                        const response = await createDoc("productos", producto);
+                        const response = await createProducto(producto);
                         if (response && response.id.length > 0) {
                             setProducto(STATE_INITIAL);
                             setErrorOrOk("Producto creado");
@@ -334,7 +334,7 @@ export const CardRegisterProducto = () => {
                         </div>
                         <hr className="mt-6 border-b-1 border-blueGray-300" />
                         <button
-                            disabled={!producto.nombre || !producto.costo || !producto.cantidad || !selectedTipoP || !producto.precio}
+                            disabled={!producto.nombre || !producto.sku || !selectedTipoP || !producto.precio}
                             className="bg-lightBlue-500 mt-6 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                         >
                             Agregar
