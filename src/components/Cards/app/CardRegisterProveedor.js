@@ -1,4 +1,3 @@
-import { createDoc } from "firebase/firebase";
 import React from "react";
 import AlertPopper from "components/Alerts/AlertPopper";
 import { useHistory } from "react-router-dom";
@@ -6,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { v4 as uuid } from 'uuid';
 import { useAuth } from "context/AuthProvider";
 import { Timestamp } from "firebase/firestore";
+import { createProveedor } from "services/proveedores/proveedorService";
 
 export const CardRegisterProveedor = () => {
     const { user } = useAuth();
@@ -36,7 +36,7 @@ export const CardRegisterProveedor = () => {
         try {
             proveedor.usuario_id = user.uid;
             proveedor.usuario = user.email.substring(0, user.email.indexOf('@'));
-            const response = await createDoc("proveedores", proveedor);
+            const response = await createProveedor(proveedor);
             if (response && response.id.length > 0) {
                 setProveedor(STATE_INITIAL);
                 setErrorOrOk("Cliente creado");

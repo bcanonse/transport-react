@@ -1,7 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { filterDoc, deleteCustomDoc } from "firebase/firebase";
+import { getProveedoresService } from "services/proveedores/proveedorService";
+import { deleteProveedor } from "services/proveedores/proveedorService";
 
 export const Proveedores = () => {
     let negocio = localStorage.getItem("negocio");
@@ -10,16 +11,8 @@ export const Proveedores = () => {
     const [proveedores, setProveedores] = React.useState([]);
 
     const getClientes = async () => {
-        const tProveedores = [];
-        const response = await filterDoc(negocio.codigo, "proveedores", "id_negocio");
-        response.forEach(element => {
-            const data = {
-                id: element.id,
-                meta: element.data()
-            }
-            tProveedores.push(data)
-        });
-        setProveedores(tProveedores);
+        const response = await getProveedoresService(negocio.codigo);
+        setProveedores(response);
     };
 
     const navigate = useHistory();
@@ -47,7 +40,7 @@ export const Proveedores = () => {
     const handleClickDelete = async (data, evt) => {
         if (data.id) {
             try {
-                await deleteCustomDoc("proveedores", data.id);
+                await deleteProveedor(data.id);
                 const newCot = proveedores.filter((value) => value.id !== data.id);
                 setProveedores(newCot);
             } catch (error) {
