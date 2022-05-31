@@ -2,8 +2,8 @@ import React from 'react';
 
 import AlertPopper from "components/Alerts/AlertPopper";
 
-import { updateCustomDoc } from "firebase/firebase";
 import { useHistory, useLocation } from "react-router-dom";
+import { updateVendedor } from 'services/vendedores/vendedorService';
 
 
 export const CardUpdateVendedor = () => {
@@ -19,7 +19,7 @@ export const CardUpdateVendedor = () => {
         evt.preventDefault();
         setErrorOrOk("");
         try {
-            await updateCustomDoc("vendedores", dataArg.id, vendedor);
+            await updateVendedor(dataArg.id, vendedor);
             setVendedor(dataArg.meta);
             setErrorOrOk("Vendedor actualizado");
             navigate.push('/app/vendors')

@@ -1,4 +1,3 @@
-import { createDoc } from "firebase/firebase";
 import React from "react";
 import AlertPopper from "components/Alerts/AlertPopper";
 import { useHistory } from "react-router-dom";
@@ -6,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { v4 as uuid } from 'uuid';
 import { useAuth } from "context/AuthProvider";
 import { Timestamp } from "firebase/firestore";
+import { createVendedor } from "services/vendedores/vendedorService";
 
 const CardRegisterVendedor = () => {
     const { user } = useAuth();
@@ -35,7 +35,7 @@ const CardRegisterVendedor = () => {
         try {
             vendedor.usuario_id = user.uid;
             vendedor.usuario = user.email.substring(0, user.email.indexOf('@'));
-            const response = await createDoc("vendedores", vendedor);
+            const response = await createVendedor(vendedor);
             if (response && response.id.length > 0) {
                 setVendedor(STATE_INITIAL);
                 setErrorOrOk("Vendedor creado");

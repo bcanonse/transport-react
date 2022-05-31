@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { filterDoc, deleteCustomDoc } from "firebase/firebase";
+import { getVendedoresService, deleteVendedor } from "services/vendedores/vendedorService";
 
 export default function Vendedores() {
     let negocio = localStorage.getItem("negocio");
@@ -10,16 +10,8 @@ export default function Vendedores() {
     const [vendedores, setVendedores] = React.useState([]);
 
     const getVendedores = async () => {
-        const tVendedores = [];
-        const response = await filterDoc(negocio.codigo, "vendedores", "id_negocio");
-        response.forEach(element => {
-            const data = {
-                id: element.id,
-                meta: element.data()
-            }
-            tVendedores.push(data)
-        });
-        setVendedores(tVendedores);
+        const response = await getVendedoresService(negocio.codigo);
+        setVendedores(response);
     };
 
     const navigate = useHistory();
@@ -47,7 +39,7 @@ export default function Vendedores() {
     const handleClickDelete = async (data, evt) => {
         if (data.id) {
             try {
-                await deleteCustomDoc("vendedores", data.id);
+                await deleteVendedor(data.id);
                 const newCot = vendedores.filter((value) => value.id !== data.id);
                 setVendedores(newCot);
             } catch (error) {
