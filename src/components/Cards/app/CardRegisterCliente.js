@@ -1,4 +1,3 @@
-import { createDoc } from "firebase/firebase";
 import React from "react";
 import AlertPopper from "components/Alerts/AlertPopper";
 import { useHistory } from "react-router-dom";
