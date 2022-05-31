@@ -68,8 +68,8 @@ export const StatusOrder = () => {
                                         B&uacute;squeda de cotizaciones o pedidos en línea
                                     </h1>
                                     <p className="mt-4 text-lg text-blueGray-200">
-                                        Ingresa el token recibido por correo electr&oacute;nico para ver el estado
-                                        de tu pedido o cotizaci&oacute;n realizado
+                                        Ingresa el token generado al momento que realiz&oacute;,
+                                        la cotizaci&oacute;n o pedido en l&iacute;nea
                                         <br />
                                     </p>
                                 </div>
