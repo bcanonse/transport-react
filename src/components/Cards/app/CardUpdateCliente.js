@@ -4,6 +4,7 @@ import AlertPopper from "components/Alerts/AlertPopper";
 
 import { updateCustomDoc } from "firebase/firebase";
 import { useHistory, useLocation } from "react-router-dom";
+import { updateCliente } from 'services/clientes/clienteService';
 
 export const CardUpdateCliente = () => {
     const navigate = useHistory();
@@ -17,7 +18,7 @@ export const CardUpdateCliente = () => {
         evt.preventDefault();
         setErrorOrOk("");
         try {
-            await updateCustomDoc("clientes", dataArg.id, cliente);
+            await updateCliente(dataArg.id, cliente);
             setCliente(dataArg.meta);
             setErrorOrOk("Cliente actualizado");
             navigate.push('/app/clients')

@@ -1,7 +1,9 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { filterDoc, deleteCustomDoc } from "firebase/firebase";
+import { deleteCustomDoc } from "firebase/firebase";
+import { getClientesService } from "services/clientes/clienteService";
+import { deleteCliente } from "services/clientes/clienteService";
 
 
 export const Clientes = () => {
@@ -12,16 +14,8 @@ export const Clientes = () => {
     const [clientes, setClientes] = React.useState([]);
 
     const getClientes = async () => {
-        const tClientes = [];
-        const response = await filterDoc(negocio.codigo, "clientes", "id_negocio");
-        response.forEach(element => {
-            const data = {
-                id: element.id,
-                meta: element.data()
-            }
-            tClientes.push(data)
-        });
-        setClientes(tClientes);
+        const response = await getClientesService(negocio.codigo);
+        setClientes(response);
     };
 
     const navigate = useHistory();
@@ -49,7 +43,7 @@ export const Clientes = () => {
     const handleClickDelete = async (data, evt) => {
         if (data.id) {
             try {
-                await deleteCustomDoc("clientes", data.id);
+                await deleteCliente(data.id);
                 const newCot = clientes.filter((value) => value.id !== data.id);
                 setClientes(newCot);
             } catch (error) {

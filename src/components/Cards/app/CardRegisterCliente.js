@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { v4 as uuid } from 'uuid';
 import { useAuth } from "context/AuthProvider";
 import { Timestamp } from "firebase/firestore";
+import { createCliente } from "services/clientes/clienteService";
 
 export const CardRegisterCliente = () => {
     const { user } = useAuth();
@@ -36,7 +37,7 @@ export const CardRegisterCliente = () => {
         try {
             cliente.usuario_id = user.uid;
             cliente.usuario = user.email.substring(0, user.email.indexOf('@'));
-            const response = await createDoc("clientes", cliente);
+            const response = await createCliente(cliente);
             if (response && response.id.length > 0) {
                 setCliente(STATE_INITIAL);
                 setErrorOrOk("Cliente creado");
